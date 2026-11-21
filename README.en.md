@@ -1,6 +1,6 @@
 # Digimon Story: Time Stranger — Complete Codex & Evolution Graph
 
-[简体中文](README.md) | **English**
+[简体中文](README.md) | **English** | [日本語](README.ja.md)
 
 An **offline field guide plus interactive evolution graph** for *Digimon Story: Time Stranger*: base stats, Lv.1 / Lv.99 values, species and elemental resistances, skills and in-game profile text for all 475 Digimon, plus a full evolution network of 1,109 relations. The whole site is **a single `index.html`** — no build step, no dependencies, works offline.
 

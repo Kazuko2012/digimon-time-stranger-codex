@@ -1,6 +1,6 @@
 # 数码宝贝物语 时空异客 · 全数码兽图鉴与进化谱系
 
-**简体中文** | [English](README.en.md)
+**简体中文** | [English](README.en.md) | [日本語](README.ja.md)
 
 《Digimon Story: Time Stranger》的**离线图鉴 + 可交互谱系图**：475 只数码兽的基础资料、Lv.1 / Lv.99 数值、种族与属性耐性、技能、图鉴说明，以及 1109 条进化关系构成的完整进化网络。整个站点只有**一个 `index.html`**，无构建、无依赖、可断网打开。
 
