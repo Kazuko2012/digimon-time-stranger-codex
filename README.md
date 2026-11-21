@@ -1,8 +1,8 @@
 # 数码宝贝物语 时空异客 · 全进化关系图鉴
 
-《Digimon Story: Time Stranger》的**离线图鉴 + 可交互谱系图**：475 只数码兽的基础资料、Lv.1 / Lv.99 数值、种族与属性耐性、技能、图鉴说明，以及 1109 条进化关系构成的完整进化网络。整个站点只有**一个 `index.html`**，无构建、无依赖、可断网打开。
+**简体中文** | [English](README.en.md)
 
-**An offline field guide and evolution-graph explorer for all 475 Digimon in *Digimon Story: Time Stranger*.** Everything runs from a single `index.html` — no build step, no runtime dependencies, works offline.
+《Digimon Story: Time Stranger》的**离线图鉴 + 可交互谱系图**：475 只数码兽的基础资料、Lv.1 / Lv.99 数值、种族与属性耐性、技能、图鉴说明，以及 1109 条进化关系构成的完整进化网络。整个站点只有**一个 `index.html`**，无构建、无依赖、可断网打开。
 
 | 入口 | 地址 |
 |---|---|
@@ -18,19 +18,19 @@
 ## 目录
 
 - [它解决什么问题](#它解决什么问题)
+- [预览截图](#预览截图)
 - [30 秒上手](#30-秒上手)
-- [预览截图](#预览--screenshots)
-- [使用场景](#使用场景--use-cases)
-- [功能全览](#功能全览--features)
+- [使用场景](#使用场景)
+- [功能全览](#功能全览)
 - [界面速查：控件都在哪](#界面速查控件都在哪)
-- [键盘快捷键](#键盘快捷键--shortcuts)
+- [键盘快捷键](#键盘快捷键)
 - [深链参数（分享用）](#深链参数分享用)
-- [数据与目录](#数据与目录--layout)
+- [数据与目录](#数据与目录)
 - [本地运行 / 打包 / 部署](#本地运行--打包--部署)
-- [常见问题](#常见问题--faq)
-- [更新说明](#更新说明--changelog)
-- [数据来源与声明](#数据来源与声明--data--disclaimer)
-- [许可](#许可--license)
+- [常见问题](#常见问题)
+- [更新说明](#更新说明)
+- [数据来源与声明](#数据来源与声明)
+- [许可](#许可)
 
 ---
 
@@ -44,7 +44,7 @@
 - 中文 / English / 日本語 **全站本地化**，名称与简介取自官方图鉴；详情卡还能单独切语言；
 - 手机、平板、电脑都能用；单文件版可拷 U 盘、发聊天工具，**断网双击即开**。
 
-## 预览 / Screenshots
+## 预览截图
 
 **图鉴卡片视图**：475 只全列表，卡片左缘阶段色条 + 阶段 / 属性 / 关系数徽标；顶部搜索、视图切换、「标准 / 无图」密度与卡片大小步进器；筛选默认收起，点「显示筛选」展开阶段 / 属性 / 条件三组。
 
@@ -66,7 +66,7 @@
 4. 想看全局：顶部切「谱系图」，输入或点左栏任意一只作为中心。
 5. 想看 A→B 怎么走：点「进化路线」，选起点终点，点「查询」。
 
-## 使用场景 / Use cases
+## 使用场景
 
 按「你此刻想干什么」组织，每个场景给操作路径与对应功能点，在线版和单文件版完全一致。
 
@@ -178,9 +178,9 @@ cp dist/digimon-time-stranger-guide-single.html dist/digimon-guide-v1.x.y.html
 - 改完跑 `scripts/build_single.py` 校验（会打印 `icons: 475`，缺图会提示）；
 - 推 `main` 即由 GitHub Actions 发 Pages（`Settings → Pages → Source` 选 **GitHub Actions**）。
 
-## 功能全览 / Features
+## 功能全览
 
-**图鉴卡片 / Card view**
+**图鉴卡片**
 
 - 475 只全列表：编号、中文名、日文名、阶段、属性、进化条件；卡片左缘阶段色条 + 阶段 / 属性徽标
 - 搜索中文名 / 日文名 / 编号（编号包含匹配、三位补零），`✕` 一键清空
@@ -190,7 +190,7 @@ cp dist/digimon-time-stranger-guide-single.html dist/digimon-guide-v1.x.y.html
 - 常驻计数「当前显示 N / 475」
 - 点击卡片打开详情抽屉（也可 `Enter` / `Space` 打开聚焦卡片）
 
-**详情抽屉 / Detail drawer**
+**详情抽屉**
 
 - 顶栏：上一只 / 第 N / 475 只 / 下一只、详情卡独立语言、复制分享链接、关闭
 - 基础：编号、中 / 日文名、阶段、属性、类型、性格、可退化自与可进化为数量
@@ -200,7 +200,7 @@ cp dist/digimon-time-stranger-guide-single.html dist/digimon-guide-v1.x.y.html
 - 图鉴说明原文；底部两条快捷入口：以它为起点查路线、在谱系图中查看全部前后
 - 侧栏可左右拖动调宽（双击回半屏），顶部「半屏 / 全屏」，宽度与状态记忆
 
-**谱系图 / Lineage view**
+**谱系图**
 
 - 以任意一只为中心逐层展开后代与祖先，可无限上溯
 - `↑N` 上溯、`+N` 下展；折叠 / 展开保持视角不跳
@@ -210,7 +210,7 @@ cp dist/digimon-time-stranger-guide-single.html dist/digimon-guide-v1.x.y.html
 - 瀑布大纲（按世代罗列，含折叠分支）、鹰眼缩略图、多选比较多条路线
 - 左栏 475 只（可搜索、可收起）；谱系内筛选浮层
 
-**通用 / Common**
+**通用**
 
 - 深浅主题三模式：跟随系统 / 白天 / 夜间（按钮循环），记忆选择
 - 记忆上次状态：视图、中心、搜索词、筛选组合；**关闭页面即回默认**，分享链接仍可还原
@@ -232,7 +232,7 @@ cp dist/digimon-time-stranger-guide-single.html dist/digimon-guide-v1.x.y.html
 | 谱系图右下 | 鹰眼缩略图 |
 | 页面底部 | 构建版本、GitHub 仓库入口 |
 
-## 键盘快捷键 / Shortcuts
+## 键盘快捷键
 
 | 键 | 作用 |
 |---|---|
@@ -263,7 +263,7 @@ cp dist/digimon-time-stranger-guide-single.html dist/digimon-guide-v1.x.y.html
 | `size` | 卡片宽度 168 / 196 / 240 / 296 / 360 | `?size=296` |
 | `thm` | 兼容旧主题参数 | `?thm=light` |
 
-## 数据与目录 / Layout
+## 数据与目录
 
 ```
 .
@@ -308,7 +308,7 @@ python3 scripts/build_single.py
 
 > 若 Actions 的 deploy 步骤报 `Fetching artifact metadata failed`，重跑一次 workflow（不要用「rerun failed jobs」，那会产生两个 `github-pages` artifact 导致再次失败）。
 
-## 常见问题 / FAQ
+## 常见问题
 
 **Q：数字和游戏内不一致？**
 数值整理自日版攻略站（含 DLC 数码兽），个别条目可能与你的存档版本、更新档期有差异，以游戏内为准。
@@ -316,7 +316,7 @@ python3 scripts/build_single.py
 **Q：为什么进化条件里有的写「无」？**
 代表该形态在初始或特定途径下直接获得，没有额外等级 / 道具条件（如幼年期Ⅰ的初始形态）。
 
-**Q：手机上顶栏为什么不跟着滚动？**
+**Q：手机上顶栏为什么不吸顶？**
 桌面保留吸顶（随时点上一只 / 下一只）；手机端刻意改为随内容滚动，因为 iOS Safari 的 sticky 在抽屉滚动容器里会悬在页面中间压住正文。手机上用左上 `‹ 返回` 或列表翻找即可。
 
 **Q：刷新后主题 / 视图还记得吗？**
@@ -328,7 +328,7 @@ python3 scripts/build_single.py
 **Q：会不会收录游戏文件？**
 不会。仓库只有图鉴数据与查看用的网页代码。
 
-## 更新说明 / Changelog
+## 更新说明
 
 ### v1.10.3 — 2026-11-22 · 手机端顶栏不再悬浮压住内容
 
@@ -338,7 +338,7 @@ python3 scripts/build_single.py
 
 > 历史版本见 [Releases](https://github.com/Kazuko2012/digimon-time-stranger-guide/releases)（仓库只保留最新一版 Release，旧版自动删除）。
 
-## 数据来源与声明 / Data & Disclaimer
+## 数据来源与声明
 
 - 数值与图鉴说明整理自日版攻略站 AppMedia 的《时空异客》图鉴页（含 DLC 数码兽）
 - 英文 / 日文名称、简介取自 [digimon.net](https://digimon.net/) 官方图鉴
@@ -347,8 +347,6 @@ python3 scripts/build_single.py
 
 本项目是非商业性质的同人整理作品。《数码宝贝》系列角色、名称、图像版权归 Bandai Namco Entertainment 及各自权利方所有。代码以 MIT 许可开源，素材版权不随代码许可转让。若权利方有异议，会立即下线相关内容。
 
-This is a non-commercial fan project. All Digimon characters, names and artwork belong to Bandai Namco Entertainment and their respective owners. The source code is released under MIT; the license does **not** extend to third-party game assets.
-
-## 许可 / License
+## 许可
 
 代码：MIT（见 [`LICENSE`](LICENSE)）。素材：版权归原权利方，仅限学习交流。
