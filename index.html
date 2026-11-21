@@ -866,7 +866,7 @@ body.light .langsw button.on{color:#0b2233}
 body.light .dlang{background:rgba(20,45,90,.04)}
 body.light .dlang button{color:#4a5c78}
 body.light .dlang button.on{color:#0b2233}
-.dnav{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;padding:10px 210px 10px 0;background:var(--bg2)}
+.dnav{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px;padding:10px 210px 10px 0;background:var(--bg2);flex-wrap:wrap;row-gap:8px}
 .dclose,.dcopy{z-index:6}
 @media (max-width:900px){.dnav{padding-right:100px}}
 body.light .dnav{background:rgba(255,255,255,.96);backdrop-filter:blur(8px)}
@@ -882,7 +882,7 @@ body.light .dnav button:disabled{color:#8fa3ba;border-color:rgba(15,131,184,.2)}
 .dnav button{height:34px;padding:0 15px;border-radius:9px;border:1px solid var(--ctl-line,var(--line));background:var(--ctl-bg,rgba(255,255,255,.05));color:var(--ctl-txt,#dbe7ff);font-size:13px;font-family:inherit;cursor:pointer;transition:border-color .16s,background .16s}
 .dnav button:hover:not(:disabled){border-color:rgba(79,216,255,.5);background:var(--ctl-bg-h,rgba(79,216,255,.12))}
 .dnav button:disabled{opacity:.4;cursor:default}
-.dnavpos{font-size:13px;color:#b9cdea;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.dnavpos{font-size:13px;color:#b9cdea;font-variant-numeric:tabular-nums;letter-spacing:.02em;white-space:nowrap;flex:1 1 auto;text-align:center;min-width:0}
 body.light .dnavpos{color:#3f5473}
 .dnavpos b{color:#ffffff}
 body.light .dnavpos b{color:#0b2a44}
@@ -1055,6 +1055,9 @@ body.light .lmini{background:rgba(255,255,255,.95)}
 }
 
 /* ================= v1.9.4 详情抽屉顶栏：控件尺寸/字阶/对比度统一 ================= */
+.dnav #dprev,.dnav #dnext{flex:none;white-space:nowrap}
+.dnav #dprev,.dnav #dnext .ar{margin-left:2px}
+.dnav .ar{font-weight:700}
 .dnav button{height:34px;padding:0 15px;font-size:13px;border-radius:9px;font-weight:600}
 .dnavpos{font-size:13px;font-weight:600;letter-spacing:.01em}
 .dview{padding:0;gap:0;border-radius:9px;overflow:hidden}
@@ -1065,8 +1068,18 @@ body.light .lmini{background:rgba(255,255,255,.95)}
 .dclose,.dcopy{width:34px;height:34px;border-radius:9px}
 .dclose svg,.dcopy svg{width:15px;height:15px}
 .dclose{font-size:15px}
+@media (max-width:820px){
+  /* 窄屏抽屉：上一只/序数/下一只 一行，语言组独占一行靠右 */
+  .dnav{gap:6px;padding:8px 96px 8px 0}
+  .dnav #dprev,.dnav #dnext{padding:0 10px}
+  .dnav .tx{display:none}          /* 只留 ‹ › 箭头，避免竖排拆字 */
+  .dnav .ar{font-size:15px}
+  .dnavpos{font-size:12px;flex:0 1 auto}
+  .dlang{margin-left:0;flex:none;order:9}   /* 换行后靠左，避开右上角复制/关闭按钮 */
+  .dnav #dprev{order:1}.dnavpos{order:2}.dnav #dnext{order:3}
+}
 @media (max-width:640px){
-  .dnav{gap:6px;padding:8px 100px 8px 0}
+  .dnav{gap:6px;padding:8px 84px 8px 0}
   .dnav button{height:32px;padding:0 9px;font-size:12px;white-space:nowrap}
   .dnavpos{font-size:12px;white-space:nowrap}
   .dclose,.dcopy{width:32px;height:32px}
@@ -1331,7 +1344,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.10.0 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.10.1 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -1938,11 +1951,13 @@ function openDrawer(n, keepDL){
     dr.scrollTop=0;
     const order=rankNum(sortList(N.filter(match))); const oi=order.findIndex(x=>x.n===n);
     const nav=document.createElement('div'); nav.className='dnav';
-    const tPrev = DLX==='en'?'‹ Prev':(DLX==='ja'?'‹ 前へ':'‹ 上一只');
-    const tNext = DLX==='en'?'Next ›':(DLX==='ja'?'次へ ›':'下一只 ›');
+    const tPrev = DLX==='en'?'Prev':(DLX==='ja'?'前へ':'上一只');
+    const tNext = DLX==='en'?'Next':(DLX==='ja'?'次へ':'下一只');
     const tPos  = DLX==='zh' ? ('第 <b>'+(oi+1)+'</b> / '+order.length+' 只') : ('<b>'+(oi+1)+'</b> / '+order.length);
     const dlgHtml='<div class="dlang" id="dlang" role="group" aria-label="详情卡语言">'+[['zh','中文'],['en','EN'],['ja','日本語']].map(([v,t])=>'<button type="button" data-l="'+v+'"'+(DLX===v?' class="on"':'')+'>'+t+'</button>').join('')+'</div>';
-    nav.innerHTML='<button id="dprev" type="button"'+(oi<=0?' disabled':'')+'>'+tPrev+'</button><span class="dnavpos">'+tPos+'</span><button id="dnext" type="button"'+(oi<0||oi>=order.length-1?' disabled':'')+'>'+tNext+'</button>'+dlgHtml;
+    nav.innerHTML='<button id="dprev" type="button"'+(oi<=0?' disabled':'')+'><span class="ar">‹</span><span class="tx">'+tPrev+'</span></button>'
+      +'<span class="dnavpos">'+tPos+'</span>'
+      +'<button id="dnext" type="button"'+(oi<0||oi>=order.length-1?' disabled':'')+'><span class="tx">'+tNext+'</span><span class="ar">›</span></button>'+dlgHtml;
     $('#dbody').prepend(nav);
     const step=k=>{const t=order[oi+k]; if(t) openDrawer(t.n);};
     $('#dprev').onclick=()=>step(-1); $('#dnext').onclick=()=>step(1);
