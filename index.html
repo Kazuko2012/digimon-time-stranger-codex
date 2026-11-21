@@ -859,6 +859,13 @@ body.light .langsw button{color:#4a5c78}
 body.light .langsw button.on{color:#0b2233}
 @media(max-width:1100px){.langsw button{padding:6px 7px;font-size:11.5px}}
 
+.dlang{display:inline-flex;gap:2px;padding:2px;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.04);flex:none;margin-left:auto}
+.dlang button{border:0;border-radius:6px;background:transparent;color:#9fb6d8;font-family:inherit;font-size:11px;line-height:1;padding:4px 7px;cursor:pointer}
+.dlang button:hover{color:#d8e6ff}
+.dlang button.on{background:linear-gradient(120deg,rgba(79,216,255,.28),rgba(167,139,250,.28));color:#fff;font-weight:600}
+body.light .dlang{background:rgba(20,45,90,.04)}
+body.light .dlang button{color:#4a5c78}
+body.light .dlang button.on{color:#0b2233}
 .dnav{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;padding:10px 210px 10px 0;background:var(--bg2)}
 .dclose,.dcopy{z-index:6}
 @media (max-width:900px){.dnav{padding-right:100px}}
@@ -1324,7 +1331,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.9.20 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.10.0 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -1672,16 +1679,38 @@ document.addEventListener('scroll',()=>{ if(__ptip) __ptip.classList.remove('on'
 /* 悬停「进化后」条目：显示进化成该形态所需的条件 */
 let __ctip=null;
 function escTxt(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+/* 取指定语言下的名称（zh/en/ja），供详情卡独立语言使用 */
+function nameOfIn(d, l){
+  if(!d) return '';
+  if(l==='en') return (typeof EN_NAME!=='undefined' && EN_NAME[d.n]) || d.en0 || d.jp0 || d.jp || d.cn;
+  if(l==='ja') return d.jp0 || d.jp || d.cn;
+  return d.cn0 || d.cn;
+}
 function condTip(){
   if(__ctip) return __ctip;
   __ctip=document.createElement('div'); __ctip.className='ctip'; document.body.appendChild(__ctip);
   const db=document.getElementById('dbody'); if(!db) return __ctip;
   const pick=ev=>ev.target.closest && ev.target.closest('.ritem[data-role="x"]');
   const ctipHTML=o=>{
+    const l=(typeof DL!=='undefined' && DL) ? DL : (typeof LANG!=='undefined'?LANG:'zh');
     const cs=(o.c||[]).filter(x=>x&&x!=='无');
-    return `<div class="h">进化为 <b>${escTxt(nameOf(o))}</b> 的条件</div>`
-      + (cs.length?`<ul style="margin:0;padding:0">${cs.map(c=>`<li><em>◆</em><span>${escTxt(c)}</span></li>`).join('')}</ul>`
-                 :`<div class="none">无特殊条件</div>`);
+    const nm=escTxt(nameOfIn(o,l));
+    const head = l==='en' ? ('Conditions to evolve into <b>'+nm+'</b>')
+               : l==='ja' ? (nm+'への進化条件')
+               : ('进化为 <b>'+nm+'</b> 的条件');
+    const tail = cs.length ? ('<ul style="margin:0;padding:0">'+cs.map(c=>'<li><em>◆</em><span>'+escTxt(c)+'</span></li>').join('')+'</ul>')
+               : ('<div class="none">'+(l==='en'?'No special conditions':l==='ja'?'特殊条件なし':'无特殊条件')+'</div>');
+    return '<div class="h">'+head+'</div>'+tail;
+  };
+  const fillCtip=o=>{
+    __ctip.innerHTML=ctipHTML(o);
+    const l=(typeof DL!=='undefined' && DL) ? DL : (typeof LANG!=='undefined'?LANG:'zh');
+    if(l!=='zh'){
+      __ctip.setAttribute('data-dlfix','1');
+      const o0=LANG, ul=__ctip.querySelector('ul');
+      try{ LANG=l; if(ul) applyNow(ul); }catch(e){}
+      LANG=o0;
+    }
   };
   const touch=window.matchMedia&&window.matchMedia('(hover: none)').matches;
   if(touch){
@@ -1692,7 +1721,7 @@ function condTip(){
       const n=+it.dataset.n;
       if(__ctip.classList.contains('on') && __ctip.__for===n){ __ctip.classList.remove('on'); __ctip.__for=null; return; }
       const o=BY[n]; if(!o) return;
-      __ctip.innerHTML=ctipHTML(o); __ctip.__for=n;
+      fillCtip(o); __ctip.__for=n;
       placeCtip(ev); __ctip.classList.add('on');
     },true);
     document.addEventListener('pointerdown',ev=>{
@@ -1705,7 +1734,7 @@ function condTip(){
   db.addEventListener('mouseover',ev=>{
     const it=pick(ev); if(!it) return;
     const o=BY[+it.dataset.n]; if(!o) return;
-    __ctip.innerHTML=ctipHTML(o);
+    fillCtip(o);
     placeCtip(ev);
     __ctip.classList.add('on');
   },true);
@@ -1769,7 +1798,7 @@ function dxHTML(n){
                  grow?`每级成长：${grow}`:'每级成长：无加成',
                  (up.length||dn.length)?`Lv.99 相对基准：${[...up,...dn].join('、')}`:'Lv.99 与基准相同',
                  `合计：${tot}`].join('|');
-      return `<tr class="prow${cur?' cur':''}" data-tip="${tip.replace(/"/g,'&quot;')}"><td>${cur?'★ ':''}${PERS_CN[i]}</td>${
+      return `<tr class="prow${cur?' cur':''}" data-tip="${tip.replace(/"/g,'&quot;')}"><td>${cur?'<span class="pstar">★</span> ':''}${PERS_CN[i]}</td>${
         KK.map(k=>`<td>${v[k]}</td>`).join('')}<td class="sum">${tot}</td></tr>`;
     }).join('');
     return `<div class="dx-h"><i></i>Lv.99 各性格数值<span>无加成，★ 为该兽初始性格</span></div>
@@ -1843,8 +1872,14 @@ function showDrawerTools(on){
   addEventListener('resize',()=>{ if(drawerEl() && drawerEl().classList.contains('on')) applyDView(); });
 })();
 
-function openDrawer(n){
+function openDrawer(n, keepDL){
   const d=BY[n]; if(!d) return; CURDRAW=n;
+  if(!keepDL) DL=null;                       /* 每次打开默认跟随主界面语言 */
+  const DLX=(DL||LANG), DL0=LANG, tempLang=(DLX!==LANG);
+  if(tempLang){                              /* 临时切到目标语言，让名称/简介按目标语言生成 */
+    LANG=DLX;
+    try{ applyNameLang(); }catch(e){}
+  }
   if(typeof __ctip!=='undefined' && __ctip) __ctip.classList.remove('on');
   const sc=stageColor[d.s]||'#8fa4c9', ac=attrColor[d.a]||'var(--unk)';
   const conds = d.c.length ? `<ul class="cond">${d.c.map(c=>`<li><em>◆</em><span>${c}</span></li>`).join('')}</ul>` : `<div style="color:var(--sub);font-size:13px">无特殊条件</div>`;
@@ -1903,10 +1938,21 @@ function openDrawer(n){
     dr.scrollTop=0;
     const order=rankNum(sortList(N.filter(match))); const oi=order.findIndex(x=>x.n===n);
     const nav=document.createElement('div'); nav.className='dnav';
-    nav.innerHTML='<button id="dprev" type="button"'+(oi<=0?' disabled':'')+'>‹ 上一只</button><span class="dnavpos">第 <b>'+(oi+1)+'</b> / '+order.length+' 只</span><button id="dnext" type="button"'+(oi<0||oi>=order.length-1?' disabled':'')+'>下一只 ›</button>';
+    const tPrev = DLX==='en'?'‹ Prev':(DLX==='ja'?'‹ 前へ':'‹ 上一只');
+    const tNext = DLX==='en'?'Next ›':(DLX==='ja'?'次へ ›':'下一只 ›');
+    const tPos  = DLX==='zh' ? ('第 <b>'+(oi+1)+'</b> / '+order.length+' 只') : ('<b>'+(oi+1)+'</b> / '+order.length);
+    const dlgHtml='<div class="dlang" id="dlang" role="group" aria-label="详情卡语言">'+[['zh','中文'],['en','EN'],['ja','日本語']].map(([v,t])=>'<button type="button" data-l="'+v+'"'+(DLX===v?' class="on"':'')+'>'+t+'</button>').join('')+'</div>';
+    nav.innerHTML='<button id="dprev" type="button"'+(oi<=0?' disabled':'')+'>'+tPrev+'</button><span class="dnavpos">'+tPos+'</span><button id="dnext" type="button"'+(oi<0||oi>=order.length-1?' disabled':'')+'>'+tNext+'</button>'+dlgHtml;
     $('#dbody').prepend(nav);
     const step=k=>{const t=order[oi+k]; if(t) openDrawer(t.n);};
     $('#dprev').onclick=()=>step(-1); $('#dnext').onclick=()=>step(1);
+    const dlg=document.getElementById('dlang');
+    if(dlg) dlg.querySelectorAll('button').forEach(b=>b.onclick=ev=>{
+      ev.stopPropagation();
+      const l=b.dataset.l||'zh';
+      DL=(l===LANG)?null:l;                 /* 与主界面一致时恢复“跟随” */
+      openDrawer(CURDRAW,true);
+    });
     window.__dstep=step;
     if(!wasOpen){ let lf=document.activeElement; if(!lf||lf===document.body||lf===document.documentElement){ lf=document.querySelector('.card[data-n="'+n+'"]')||document.querySelector('.lsi[data-n="'+n+'"]')||lf; } window.__lastFocus=lf; setTimeout(()=>{const c=$('#dclose'); if(c&&c.focus) c.focus({preventScroll:true});},80); }
   }catch(e){}
@@ -1915,6 +1961,12 @@ function openDrawer(n){
   $('#lvHere').onclick=()=>{ closeDrawer(); if(typeof setView==='function'){ setView('lineage'); setCenter(d.n); if(typeof lsearch!=='undefined') lsearch.value=nameOf(d); } };
   if(typeof persTip==='function') persTip();
   if(typeof condTip==='function') condTip();
+  if(tempLang){
+    const db=$('#dbody');
+    try{ db.setAttribute('data-dlfix','1'); applyNow(db); }catch(e){}
+    LANG=DL0;
+    try{ applyNameLang(); }catch(e){}
+  }
   applyDView(); showDrawerTools(true); if(typeof updateRecenter==='function') updateRecenter();
   $('#drawer').classList.add('on'); $('#mask').classList.add('on');
 }
@@ -3297,6 +3349,7 @@ const UI_LANG={en:{"幼年期Ⅰ": "In-Training I", "幼年期Ⅱ": "In-Training
 const LANG_KEY='dg_lang';
 let LANG='zh';
 let CURDRAW=0;
+let DL=null;   /* 详情卡独立语言：null = 跟随主界面；'zh'|'en'|'ja' 表示本卡固定显示该语言 */
 const __zhText=new WeakMap(), __zhAttr=new WeakMap();
 UI_LANG.en['‹ 收起列表']='‹ Collapse list'; UI_LANG.en['› 展开列表']='› Expand list';
 UI_LANG.ja['‹ 收起列表']='‹ リストを畳む'; UI_LANG.ja['› 展开列表']='› リストを開く';
@@ -3376,7 +3429,7 @@ function trRule(t){
     if(m=t.match(/^(\d+) 只$/)) return m[1];
     if(m=t.match(/^(\d+) 个$/)) return m[1];
     if(m=t.match(/^(\d+) · 悬停查看进化条件$/)) return m[1]+' · hover for conditions';
-    if(m=t.match(/^(弱点|抗性|无效)：(.+)$/)) return UI_LANG.en[m[1]]+': '+m[2].split('、').map(x=>ELEM_EN[x]||x).join(', ');
+    if(m=t.match(/^(弱点|抗性|无效)：(.+)$/)) return UI_LANG.en[m[1]]+': '+m[2].split('、').map(x=>ELEM_EN[x]||UI_LANG.en[x]||x).join(', ');
     if(m=t.match(/^(\d+)回合$/)) return m[1]+' turns';
   }else{
     let m;
@@ -3392,7 +3445,7 @@ function trRule(t){
     if(m=t.match(/^(\d+) 只$/)) return m[1];
     if(m=t.match(/^(\d+) 个$/)) return m[1];
     if(m=t.match(/^(\d+) · 悬停查看进化条件$/)) return m[1]+' · ホバーで条件表示';
-    if(m=t.match(/^(弱点|抗性|无效)：(.+)$/)) return UI_LANG.ja[m[1]]+'：'+m[2].split('、').map(x=>ELEM_JA[x]||x).join('、');
+    if(m=t.match(/^(弱点|抗性|无效)：(.+)$/)) return UI_LANG.ja[m[1]]+'：'+m[2].split('、').map(x=>ELEM_JA[x]||UI_LANG.ja[x]||x).join('、');
     if(m=t.match(/^(\d+)回合$/)) return m[1]+'ターン';
   }
   return null;
@@ -3521,7 +3574,7 @@ function initLang(){
       __tick=0; const roots=__pend; __pend=null;
       if(!roots||!roots.size) return;
       if(roots.size>40){ applyNow(document.body); return; }
-      for(const r of roots){ if(r.isConnected) applyNow(r); }
+      for(const r of roots){ if(!r.isConnected) continue; if(r.closest && r.closest('[data-dlfix]')) continue; applyNow(r); }
     },24);
   });
   mo.observe(document.body,{childList:true,subtree:true,characterData:true});
