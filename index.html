@@ -1208,9 +1208,9 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
       </div>
       <div class="tb-right">
       <div class="langsw" id="langsw" role="group" aria-label="语言"><button data-l="zh" class="on">中文</button><button data-l="en">EN</button><button data-l="ja">日本語</button></div>
-        <label class="selwrap" title="排序方式：编号 / 名称 / 阶段 / 关系数">
+        <label class="selwrap" title="排序方式：编号 / 名称 / 阶段">
           <select id="sortSel" class="selsort" aria-label="排序方式">
-            <option value="n">编号</option><option value="name">名称</option><option value="stage">阶段</option><option value="links">关系数</option>
+            <option value="n">编号</option><option value="name">名称</option><option value="stage">阶段</option>
           </select>
           <svg class="selarrow" viewBox="0 0 10 6" width="9" height="6" aria-hidden="true"><path d="M0 0h10L5 6z" fill="currentColor"/></svg>
         </label>
@@ -1324,7 +1324,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.9.19 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.9.20 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -1429,7 +1429,8 @@ const stages = ['全部', ...Array.from(new Set(N.map(d=>d.s)))];
 const attrs  = ['全部', ...Array.from(new Set(N.map(d=>d.a)))];
 const conds  = ['全部','无特殊条件','有等级数值','需 DLC'];
 let FS=new Set(), FA=new Set(), FC=new Set(), kw='';
-let sortMode='n';            /* n 编号 / name 名称 / stage 阶段 / links 关系数 */
+let sortMode='n';            /* n 编号 / name 名称 / stage 阶段 */
+const SORT_KEYS=['n','name','stage'];
 let sortDir=1;                /* 1 正序（↑）/ -1 倒序（↓） */
 
 function chip(text,on,cb){
@@ -1484,7 +1485,7 @@ function restoreState(){
   if(Array.isArray(st.fs)) st.fs.forEach(x=>FS.add(x));
   if(Array.isArray(st.fa)) st.fa.forEach(x=>FA.add(x));
   if(Array.isArray(st.fc)) st.fc.forEach(x=>FC.add(x));
-  if(st.s) sortMode=st.s;
+  if(st.s && SORT_KEYS.indexOf(st.s)>=0) sortMode=st.s;
   if(st.d===-1||st.d===1) sortDir=st.d;
   const ssel=document.getElementById('sortSel'); if(ssel) ssel.value=sortMode;
   if(typeof window.__syncDirBtn==='function') window.__syncDirBtn();
@@ -1554,10 +1555,6 @@ function sortList(list){
       const diff=(ia<0?99:ia)-(ib<0?99:ib);
       return d*diff||a.n-b.n;
     });
-  }
-  if(sortMode==='links'){
-    const cnt=x=>((x.v||[]).length+(x.x||[]).length);
-    return list.slice().sort((a,b)=>d*(cnt(a)-cnt(b))||a.n-b.n);
   }
   return d===1 ? list.slice().sort((a,b)=>a.n-b.n) : list.slice().sort((a,b)=>b.n-a.n);
 }
