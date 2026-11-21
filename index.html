@@ -868,7 +868,11 @@ body.light .dlang button{color:#4a5c78}
 body.light .dlang button.on{color:#0b2233}
 .dnav{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px;padding:10px 210px 10px 0;background:var(--bg2);flex-wrap:wrap;row-gap:8px}
 .dclose,.dcopy{z-index:6}
-@media (max-width:900px){.dnav{padding-right:100px}}
+@media (max-width:900px){
+  /* 手机/窄屏：顶栏不做 sticky —— iOS Safari 下 sticky 在抽屉滚动容器里会悬在页面中间压住内容 */
+  .dnav{padding-right:100px;position:static;background:transparent;backdrop-filter:none;border-bottom:0}
+  body.light .dnav{background:transparent;backdrop-filter:none}
+}
 body.light .dnav{background:rgba(255,255,255,.96);backdrop-filter:blur(8px)}
 /* 抽屉顶栏控件：统一尺寸 + 提高对比度 */
 .dnav button,.dview button,.dcopy,.dclose{font-weight:600}
@@ -1068,6 +1072,10 @@ body.light .lmini{background:rgba(255,255,255,.95)}
 .dclose,.dcopy{width:34px;height:34px;border-radius:9px}
 .dclose svg,.dcopy svg{width:15px;height:15px}
 .dclose{font-size:15px}
+@media (max-width:900px){
+  /* 手机/窄屏：顶栏不做 sticky、也不铺色块 —— iOS Safari 下 sticky 会悬在页面中间压住内容 */
+  .dnav{position:static!important;background:transparent!important;backdrop-filter:none!important;border-bottom:0}
+}
 @media (max-width:820px){
   /* 窄屏抽屉：上一只/序数/下一只 一行，语言组独占一行靠右 */
   .dnav{gap:6px;padding:8px 96px 8px 0}
@@ -1344,7 +1352,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.10.2 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.10.3 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
