@@ -1163,7 +1163,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
     const nav=(performance.getEntriesByType&&performance.getEntriesByType('navigation')[0])||null;
     const isReload = nav ? (nav.type==='reload') : (performance.navigation && performance.navigation.type===1);
     let sessTheme=null; try{ sessTheme=sessionStorage.getItem('ts-theme'); }catch(e){}
-    const keepTheme = isReload || (sessTheme==='light'||sessTheme==='dark');   /* 刷新或同一标签页重载：保留主题 */
+    const keepTheme = isReload || (sessTheme==='light'||sessTheme==='dark'||sessTheme==='auto');   /* 刷新或同一标签页重载：保留主题 */
     const kill=['dg_state','dg_lang','dg_dw','dg_dview','dg_imgmode','dg_sprite','dg_size','dg_mini','dg_outline'];
     if(!keepTheme){ kill.push('ts-theme'); try{ sessionStorage.removeItem('ts-theme'); }catch(e){} }
     const ks=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k) ks.push(k); }
@@ -1213,7 +1213,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
           <svg class="selarrow" viewBox="0 0 10 6" width="9" height="6" aria-hidden="true"><path d="M0 0h10L5 6z" fill="currentColor"/></svg>
         </label>
         <button class="btn fbtn" id="fbToggle" aria-expanded="true" aria-controls="filtersBox" title="手动显示 / 隐藏筛选卡片（阶段、属性、条件）">收起筛选</button>
-        <button class="btn theme-btn" id="themeBtn" title="切换白天 / 夜间模式">☀ 白天模式</button>
+        <button class="btn theme-btn" id="themeBtn" title="白天 / 夜间 / 跟随系统">◐ 跟随系统</button>
         <div class="count">当前显示 <b id="c-show">475</b> / 475</div>
         <a class="ghbtn" id="ghLink" href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" aria-label="在 GitHub 上查看源码与更新记录（新窗口打开）" title="GitHub 仓库：源码 / 更新日志 / 问题反馈"><span class="gh-label">GitHub</span><svg class="gh-arrow" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" fill="currentColor"><path d="M4.5 3h3.2v1.6H6.1v6.3h6.3v-1.6H14v3.2h-9.5V3zM9 2.2h4.8V7h-1.7V5.1l-3.9 3.9-1.2-1.2 3.9-3.9H9V2.2z"/></svg></a>
       </div>
@@ -1321,7 +1321,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.9.16 · 构建 2026-11-21 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.9.17 · 构建 2026-11-21 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -1333,54 +1333,66 @@ const N = DATA.nodes;
 const BY = {}; N.forEach(d=>BY[d.n]=d);
 const $ = s=>document.querySelector(s);
 
-/* ================= 白天 / 夜间模式 ================= */
+/* ================= 白天 / 夜间 / 跟随系统（三模式） ================= */
 const THEME_KEY='ts-theme';
 const MQ_LIGHT = (function(){ try{ return window.matchMedia('(prefers-color-scheme: light)'); }catch(e){ return null; } })();
-function themeApply(t, save){
-  const light = t==='light';
+let themeMode='auto';   /* auto = 跟随电脑外观 | light = 白天 | dark = 夜间 */
+function themeAuto(){ return (MQ_LIGHT && MQ_LIGHT.matches) ? 'light' : 'dark'; }
+function themeResolved(){ return themeMode==='auto' ? themeAuto() : themeMode; }
+function themeApply(mode, save){
+  themeMode = (mode==='light'||mode==='dark') ? mode : 'auto';
+  const resolved = themeResolved();
+  const light = resolved==='light';
   document.body.classList.toggle('light',light);
   const b=document.getElementById('themeBtn');
   if(b){
-    b.textContent = light?'☾ 夜间模式':'☀ 白天模式';
-    b.title = light?'当前为白天模式，点击切换夜间':'当前为夜间模式，点击切换白天';
+    if(themeMode==='auto'){
+      b.textContent = '◐ 跟随系统';
+      b.title = '当前跟随电脑外观（电脑'+(light?'浅色':'深色')+'），点击切换到白天';
+    }else if(themeMode==='light'){
+      b.textContent = '☀ 白天模式';
+      b.title = '当前为白天模式，点击切换到夜间';
+    }else{
+      b.textContent = '☾ 夜间模式';
+      b.title = '当前为夜间模式，点击切换回跟随系统';
+    }
   }
-  if(save){ try{ localStorage.setItem(THEME_KEY,t); }catch(e){} try{ sessionStorage.setItem(THEME_KEY,t); }catch(e){} }
+  if(save){ try{ localStorage.setItem(THEME_KEY,themeMode); }catch(e){} try{ sessionStorage.setItem(THEME_KEY,themeMode); }catch(e){} }
   if(typeof window.__lvRedraw==='function') window.__lvRedraw();
 }
-/* 优先级：链接参数 ?theme= > 刷新前的选择（仅刷新时认） > 电脑/系统外观 > 兜底深色
-   判断依据用 navigation type：reload = 刷新 → 保留；navigate = 关闭后重进/新标签 → 回电脑默认 */
-function themeFromQuery(){ try{ const q=new URLSearchParams(location.search).get('theme'); return (q==='light'||q==='dark')?q:null; }catch(e){ return null; } }
-function themeSaved(){ try{ const v=localStorage.getItem(THEME_KEY); if(v==='light'||v==='dark') return v; }catch(e){}
-  try{ const v=sessionStorage.getItem(THEME_KEY); if(v==='light'||v==='dark') return v; }catch(e){}
+/* 优先级：链接参数 ?theme= > 刷新前的选择（仅刷新时认） > 跟随系统
+   判断依据用 navigation type：reload = 刷新 → 保留；navigate = 关闭后重进/新标签 → 回跟随系统 */
+function themeFromQuery(){ try{ const q=new URLSearchParams(location.search).get('theme'); return (q==='light'||q==='dark'||q==='auto')?q:null; }catch(e){ return null; } }
+function themeSaved(){ try{ const v=localStorage.getItem(THEME_KEY); if(v==='light'||v==='dark'||v==='auto') return v; }catch(e){}
+  try{ const v=sessionStorage.getItem(THEME_KEY); if(v==='light'||v==='dark'||v==='auto') return v; }catch(e){}
   return null; }
 function themeIsReload(){
   try{
     const nav=(performance.getEntriesByType&&performance.getEntriesByType('navigation')[0])||null;
     if(nav && (nav.type==='reload' || nav.type==='back_forward')) return true;
   }catch(e){}
-  try{ const v=sessionStorage.getItem(THEME_KEY); if(v==='light'||v==='dark') return true; }catch(e){}
+  try{ const v=sessionStorage.getItem(THEME_KEY); if(v==='light'||v==='dark'||v==='auto') return true; }catch(e){}
   try{ if(performance.navigation && performance.navigation.type===1) return true; }catch(e){}
   return false;
 }
-function themeAuto(){ return (MQ_LIGHT && MQ_LIGHT.matches) ? 'light' : 'dark'; }
 function themeInit(){
-  const q=themeFromQuery(); if(q){ themeApply(q,false); themeManual=true; return; }
+  const q=themeFromQuery(); if(q){ themeApply(q,false); return; }
   const s=themeSaved();
-  if(s && themeIsReload()){ themeApply(s,false); themeManual=true; return; }   /* 刷新：沿用刷新前的选择 */
+  if(s && themeIsReload()){ themeApply(s,false); return; }   /* 刷新：沿用刷新前的选择 */
   if(s){ try{ localStorage.removeItem(THEME_KEY); sessionStorage.removeItem(THEME_KEY); }catch(e){} }   /* 重进/新开：丢弃旧选择 */
-  themeApply(themeAuto(),false);   /* 取电脑默认外观 */
+  themeApply('auto',false);   /* 默认跟随电脑外观 */
 }
 function themeToggle(){
-  themeManual=true;
-  themeApply(document.body.classList.contains('light')?'dark':'light', true);
+  /* 跟随系统 → 白天 → 夜间 → 跟随系统 */
+  const next = themeMode==='auto' ? 'light' : (themeMode==='light' ? 'dark' : 'auto');
+  themeApply(next, true);
 }
-let themeManual=false;   /* 本会话是否手动切过主题：切过就不再被系统变化覆盖 */
+function themeSet(m){ themeApply(m, false); }   /* 供深链/旧参数使用 */
 themeInit();
 document.getElementById('themeBtn').onclick=themeToggle;
 if(MQ_LIGHT){
   const onSysChange=function(){
-    if(themeManual) return;
-    themeApply(themeAuto(),false);
+    if(themeMode==='auto') themeApply('auto',false);   /* 仅“跟随系统”时随电脑变化 */
   };
   if(MQ_LIGHT.addEventListener) MQ_LIGHT.addEventListener('change',onSysChange);
   else if(MQ_LIGHT.addListener) MQ_LIGHT.addListener(onSysChange);
@@ -3654,7 +3666,7 @@ document.addEventListener('keydown',e=>{
     const spr=usp.get('spr');
     if(spr){ const b=document.querySelector('#sprmode button[data-m="'+spr+'"]'); if(b && !b.classList.contains('on')) b.click(); }
     const thm=usp.get('thm');
-    if(thm==='light' && !document.body.classList.contains('light')){ const tb=document.getElementById('themeBtn'); if(tb) tb.click(); }
+    if((thm==='light'||thm==='dark') && typeof themeSet==='function'){ themeSet(thm); }
   }catch(e){}
 })();
 
