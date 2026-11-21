@@ -1,4 +1,4 @@
-# 数码宝贝物语 时空异客 · 全进化关系图鉴
+# 数码宝贝物语 时空异客 · 全数码兽图鉴与进化谱系
 
 **简体中文** | [English](README.en.md)
 
@@ -6,10 +6,10 @@
 
 | 入口 | 地址 |
 |---|---|
-| 在线版（手机 / 电脑直接开） | https://kazuko2012.github.io/digimon-time-stranger-guide/ |
-| 离线单文件（约 2.9 MB，图标全内嵌） | `dist/digimon-time-stranger-guide-single.html`（`python3 scripts/build_single.py` 生成） |
-| 源码 / 更新记录 / 问题反馈 | https://github.com/Kazuko2012/digimon-time-stranger-guide |
-| 版本发布（只保留最新） | https://github.com/Kazuko2012/digimon-time-stranger-guide/releases |
+| 在线版（手机 / 电脑直接开） | https://kazuko2012.github.io/digimon-time-stranger-codex/ |
+| 离线单文件（约 2.9 MB，图标全内嵌） | `dist/digimon-time-stranger-codex-single.html`（`python3 scripts/build_single.py` 生成） |
+| 源码 / 更新记录 / 问题反馈 | https://github.com/Kazuko2012/digimon-time-stranger-codex |
+| 版本发布（只保留最新） | https://github.com/Kazuko2012/digimon-time-stranger-codex/releases |
 
 > 本仓库只收录**图鉴数据与查看工具**，不含游戏程序、存档或任何破解内容。
 
@@ -161,13 +161,13 @@
 
 ```bash
 python3 scripts/build_single.py
-# → dist/digimon-time-stranger-guide-single.html（图标 base64 内嵌，约 2.9 MB）
+# → dist/digimon-time-stranger-codex-single.html（图标 base64 内嵌，约 2.9 MB）
 ```
 
 单文件版放到 U 盘、聊天工具里直接发都行，断网双击即开，功能与在线版一致（图片、语言、谱系全在文件里）。想加版本名方便归档：
 
 ```bash
-cp dist/digimon-time-stranger-guide-single.html dist/digimon-guide-v1.x.y.html
+cp dist/digimon-time-stranger-codex-single.html dist/digimon-guide-v1.x.y.html
 ```
 
 ### 11. 自己维护数据 / 二次开发
@@ -299,12 +299,12 @@ python3 -m http.server 8000
 
 ```bash
 python3 scripts/build_single.py
-# 产出 dist/digimon-time-stranger-guide-single.html（约 2.9 MB）
+# 产出 dist/digimon-time-stranger-codex-single.html（约 2.9 MB）
 ```
 
 **部署**
 
-推 `main` 后 GitHub Actions 自动发布到 `https://kazuko2012.github.io/digimon-time-stranger-guide/`。仓库设置里把 **Settings → Pages → Source** 选为 **GitHub Actions**。
+推 `main` 后 GitHub Actions 自动发布到 `https://kazuko2012.github.io/digimon-time-stranger-codex/`。仓库设置里把 **Settings → Pages → Source** 选为 **GitHub Actions**。
 
 > 若 Actions 的 deploy 步骤报 `Fetching artifact metadata failed`，重跑一次 workflow（不要用「rerun failed jobs」，那会产生两个 `github-pages` artifact 导致再次失败）。
 
@@ -330,13 +330,19 @@ python3 scripts/build_single.py
 
 ## 更新说明
 
-### v1.10.3 — 2026-11-22 · 手机端顶栏不再悬浮压住内容
+### v1.10.4 — 2026-11-22 · 更名：全数码兽图鉴与进化谱系
+
+- 项目更名，更贴合实际内容：除进化关系外还含 475 只的数值、耐性、技能与图鉴简介
+- 仓库 `digimon-time-stranger-guide` → `digimon-time-stranger-codex`，站点地址随之变为 https://kazuko2012.github.io/digimon-time-stranger-codex/
+- 页面标题 / 首屏大标题 / 页脚仓库入口 / 单文件产物名（`digimon-time-stranger-codex-single.html`）同步更新
+
+##### v1.10.3 — 手机端顶栏不再悬浮压住内容
 
 - 手机 / 窄屏（≤900px）下详情卡顶栏不再 `sticky`：iOS Safari 里粘性定位会在抽屉滚动容器中悬在页面中间，盖住「进化条件」「可退化自」等正文
 - 窄屏顶栏改为随内容正常滚动，并去掉底色块，避免横在卡片中间的横条
 - 桌面与宽屏（>900px）仍保留吸顶，滚动时上一只 / 下一只始终可见
 
-> 历史版本见 [Releases](https://github.com/Kazuko2012/digimon-time-stranger-guide/releases)（仓库只保留最新一版 Release，旧版自动删除）。
+> 历史版本见 [Releases](https://github.com/Kazuko2012/digimon-time-stranger-codex/releases)（仓库只保留最新一版 Release，旧版自动删除）。
 
 ## 数据来源与声明
 

@@ -4,7 +4,7 @@
 用法：
     python3 scripts/build_single.py
 产出：
-    dist/digimon-time-stranger-guide-single.html
+    dist/digimon-time-stranger-codex-single.html
 """
 import base64
 import glob
@@ -14,7 +14,7 @@ import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "index.html")
 OUT_DIR = os.path.join(ROOT, "dist")
-OUT = os.path.join(OUT_DIR, "digimon-time-stranger-guide-single.html")
+OUT = os.path.join(OUT_DIR, "digimon-time-stranger-codex-single.html")
 
 icons = {}
 for f in sorted(glob.glob(os.path.join(ROOT, "assets", "icons", "*.webp"))):

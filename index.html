@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>数码宝贝物语 时空异客 · 全进化关系图鉴</title>
+<title>数码宝贝物语 时空异客 · 全数码兽图鉴与进化谱系</title>
 <style>
 :root{
   /* == design tokens (UI unification v1.6) == */
@@ -1204,7 +1204,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 <div class="wrap">
   <section class="hero">
     <div class="tagline">DIGIMON STORY · TIME STRANGER</div>
-    <h1>时空异客 · 全进化关系图鉴</h1>
+    <h1>时空异客 · 全数码兽图鉴与进化谱系</h1>
     <div class="sub">收录《数码宝贝物语 时空异客》全部 <b>475</b> 种数码宝贝的世代、类型、属性、性格，以及每一条「进化 / 退化」路线与进化条件。<br>
     点击任意数码兽即可展开它的进化条件、进化前来源与可进化去向；右上角可切换到「谱系图」，选中任意一只即可展开它的全部祖先与后代；「进化路线查询」可算出任意两只之间的最短进化路径。</div>
     <div class="stats">
@@ -1246,7 +1246,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
         <button class="btn fbtn" id="fbToggle" aria-expanded="true" aria-controls="filtersBox" title="手动显示 / 隐藏筛选卡片（阶段、属性、条件）">收起筛选</button>
         <button class="btn theme-btn" id="themeBtn" title="白天 / 夜间 / 跟随系统">◐ 跟随系统</button>
         <div class="count">当前显示 <b id="c-show">475</b> / 475</div>
-        <a class="ghbtn" id="ghLink" href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" aria-label="在 GitHub 上查看源码与更新记录（新窗口打开）" title="GitHub 仓库：源码 / 更新日志 / 问题反馈"><span class="gh-label">GitHub</span><svg class="gh-arrow" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" fill="currentColor"><path d="M4.5 3h3.2v1.6H6.1v6.3h6.3v-1.6H14v3.2h-9.5V3zM9 2.2h4.8V7h-1.7V5.1l-3.9 3.9-1.2-1.2 3.9-3.9H9V2.2z"/></svg></a>
+        <a class="ghbtn" id="ghLink" href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" aria-label="在 GitHub 上查看源码与更新记录（新窗口打开）" title="GitHub 仓库：源码 / 更新日志 / 问题反馈"><span class="gh-label">GitHub</span><svg class="gh-arrow" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" fill="currentColor"><path d="M4.5 3h3.2v1.6H6.1v6.3h6.3v-1.6H14v3.2h-9.5V3zM9 2.2h4.8V7h-1.7V5.1l-3.9 3.9-1.2-1.2 3.9-3.9H9V2.2z"/></svg></a>
       </div>
     </div>
     <div class="filters" id="filtersBox">
@@ -1352,7 +1352,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.10.3 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-guide" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.10.4 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -3429,9 +3429,9 @@ const TOK_JA={'物理':'物理','魔法':'魔法','輔助':'補助','威力':'�
 const STAT_EN={'HP上限':'Max HP','SP上限':'Max SP','攻击力':'ATK','防御力':'DEF','智力':'INT','精神':'SPI','速度':'SPD'};
 const STAT_JA={'HP上限':'最大HP','SP上限':'最大SP','攻击力':'攻撃','防御力':'防御','智力':'知力','精神':'精神','速度':'敏捷'};
 const OV={
-  hero:{en:{h1:'TIME STRANGER · Complete Evolution Guide',
+  hero:{en:{h1:'TIME STRANGER · Complete Codex & Evolution Graph',
     sub:'All <b>475</b> Digimon in <i>Digimon Story: Time Stranger</i> — stage, type, attribute and personality, plus every evolution / de-evolution link and its conditions.<br>Click any Digimon to see its conditions, pre-evolutions and evolutions; switch to <b>Lineage</b> at the top right to unfold a full ancestor / descendant tree; <b>Route Finder</b> computes the shortest evolution path between any two Digimon.'},
-   ja:{h1:'タイムストレンジャー・全進化関係図鑑',
+   ja:{h1:'タイムストレンジャー・全デジモン図鑑と進化系統図',
     sub:'『デジモンストーリー タイムストレンジャー』収録の全 <b>475</b> 体について、世代・タイプ・属性・性格と、すべての進化／退化ルート・進化条件を収録。<br>デジモンをクリックすると進化条件・退化元・進化先を表示。右上の「系譜図」で任意のデジモンの祖先と子孫を展開でき、「進化ルート検索」で任意の2体間の最短進化経路を計算できます。'}},
   note:{en:'<b>Notes</b> &nbsp;① “Evolution conditions” are what a Digimon needs <b>when it is evolved into</b> (the same applies when devolving back). Names in conditions use the name shown on the page. &nbsp;② Data compiled from the Japanese guide site AppMedia’s Time Stranger encyclopedia (DLC Digimon included); condition texts are paraphrased — in-game text prevails.',
     ja:'<b>凡例</b>　①「進化条件」はそのデジモンに<b>進化するとき</b>に必要な条件です（退化するときも同じ条件）。条件内のデジモン名は本ページの表示名に統一しています。　②データは日本語攻略サイト AppMedia の『タイムストレンジャー』図鑑（DLCデジモン含む）を整理したもので、条件文は意訳です。実際のゲーム内表記が優先されます。'},

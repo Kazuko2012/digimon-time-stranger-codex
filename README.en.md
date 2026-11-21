@@ -1,4 +1,4 @@
-# Digimon Story: Time Stranger — Complete Evolution Guide
+# Digimon Story: Time Stranger — Complete Codex & Evolution Graph
 
 [简体中文](README.md) | **English**
 
@@ -6,10 +6,10 @@ An **offline field guide plus interactive evolution graph** for *Digimon Story: 
 
 | Entry | Link |
 |---|---|
-| Online (open on phone or desktop) | https://kazuko2012.github.io/digimon-time-stranger-guide/ |
-| Offline single file (~2.9 MB, all icons inlined) | `dist/digimon-time-stranger-guide-single.html` (built by `python3 scripts/build_single.py`) |
-| Source / commit history / issues | https://github.com/Kazuko2012/digimon-time-stranger-guide |
-| Releases (latest only) | https://github.com/Kazuko2012/digimon-time-stranger-guide/releases |
+| Online (open on phone or desktop) | https://kazuko2012.github.io/digimon-time-stranger-codex/ |
+| Offline single file (~2.9 MB, all icons inlined) | `dist/digimon-time-stranger-codex-single.html` (built by `python3 scripts/build_single.py`) |
+| Source / commit history / issues | https://github.com/Kazuko2012/digimon-time-stranger-codex |
+| Releases (latest only) | https://github.com/Kazuko2012/digimon-time-stranger-codex/releases |
 
 > This repository contains **reference data and a viewer only**. It ships no game executable, no save files and nothing that could be used for piracy.
 
@@ -161,13 +161,13 @@ The copy button in the drawer header turns the **current state** into a deep lin
 
 ```bash
 python3 scripts/build_single.py
-# → dist/digimon-time-stranger-guide-single.html (icons inlined as base64, ~2.9 MB)
+# → dist/digimon-time-stranger-codex-single.html (icons inlined as base64, ~2.9 MB)
 ```
 
 The single file works from a USB stick or a chat attachment: double-click and everything is there, identical to the online build (images, languages and lineage all live inside the file). To keep a versioned copy:
 
 ```bash
-cp dist/digimon-time-stranger-guide-single.html dist/digimon-guide-v1.x.y.html
+cp dist/digimon-time-stranger-codex-single.html dist/digimon-guide-v1.x.y.html
 ```
 
 ### 11. Maintaining the data / building on it
@@ -299,12 +299,12 @@ Double-clicking `index.html` usually works too; a local server is safer where a 
 
 ```bash
 python3 scripts/build_single.py
-# produces dist/digimon-time-stranger-guide-single.html (~2.9 MB)
+# produces dist/digimon-time-stranger-codex-single.html (~2.9 MB)
 ```
 
 **Deploy**
 
-Pushing to `main` publishes the site via GitHub Actions at `https://kazuko2012.github.io/digimon-time-stranger-guide/`. Set **Settings → Pages → Source** to **GitHub Actions**.
+Pushing to `main` publishes the site via GitHub Actions at `https://kazuko2012.github.io/digimon-time-stranger-codex/`. Set **Settings → Pages → Source** to **GitHub Actions**.
 
 > If the deploy step reports `Fetching artifact metadata failed`, re-run the workflow once. Do not use "rerun failed jobs" — that produces two `github-pages` artifacts and fails again.
 
@@ -330,13 +330,19 @@ No. The repository holds guide data and the viewer code only.
 
 ## Changelog
 
-### v1.10.3 — 2026-11-22 · Mobile header no longer floats over content
+### v1.10.4 — 2026-11-22 · Renamed to Complete Codex & Evolution Graph
+
+- The project is renamed to match what it actually contains: not just evolution links but stats, resistances, skills and profile text for all 475 Digimon
+- Repository `digimon-time-stranger-guide` → `digimon-time-stranger-codex`; the site now lives at https://kazuko2012.github.io/digimon-time-stranger-codex/
+- Page title, hero heading, footer repo link and the single-file output name (`digimon-time-stranger-codex-single.html`) updated accordingly
+
+##### v1.10.3 — Mobile header no longer floats over content
 
 - On phones and narrow screens (≤900px) the detail header is no longer `sticky`: on iOS Safari, sticky positioning inside the scrolling drawer floats mid-page and covers text such as "Evolution conditions" and "Evolves from"
 - The narrow header now scrolls with the content, and its background fill was removed so no bar can sit across the middle of a card
 - Desktop and wide screens (>900px) keep the sticky header, so previous/next stays visible while scrolling
 
-> Older versions live in [Releases](https://github.com/Kazuko2012/digimon-time-stranger-guide/releases) — only the latest release is kept; older ones are deleted automatically.
+> Older versions live in [Releases](https://github.com/Kazuko2012/digimon-time-stranger-codex/releases) — only the latest release is kept; older ones are deleted automatically.
 
 ## Data sources and disclaimer
 
