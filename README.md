@@ -330,7 +330,14 @@ python3 scripts/build_single.py
 
 ## 更新说明
 
-### v1.10.4 — 2026-11-22 · 更名：全数码兽图鉴与进化谱系
+### v1.10.5 — 2026-11-22 · 16 性格改用官方译名，并加四大类标示
+
+- 性格表改用官方译名（简中：慈爱 / 牺牲奉献 / 包容力 / 过度保护 / 热血 / 勇敢 / 匹夫之勇 / 胆识非凡 / 天启 / 坏点子 / 聪颖 / 战略家 / 投机分子 / 和蔼可亲 / 善于社交 / 饶富人情味）
+- 修正英文 / 日文译名到官方名：Adoring / Devoted / Tolerant / Overprotective / Zealous / Brave / Reckless / Daring / Enlightened / Sly / Astute / Strategic / Opportunistic / Friendly / Sociable / Compassionate，日文 慈愛 / 献身的 / 包容力 / 過保護 / 熱血 / 勇敢 / 蛮勇 / 豪胆 / 天啓 / 悪知恵 / 聡慧 / 戦略家 / 日和見 / 気さく / 社交的 / 人情家
+- 性格表每行加四大类色点，表下补图例：博爱（+精神）/ 勇猛（+攻击）/ 知启（+智力）/ 友好（+防御）；悬停提示同步标出所属大类
+- 窄屏下性格表可横向滚动，长名称不再折行
+
+##### v1.10.4 — 更名：全数码兽图鉴与进化谱系
 
 - 项目更名，更贴合实际内容：除进化关系外还含 475 只的数值、耐性、技能与图鉴简介
 - 仓库 `digimon-time-stranger-guide` → `digimon-time-stranger-codex`，站点地址随之变为 https://kazuko2012.github.io/digimon-time-stranger-codex/

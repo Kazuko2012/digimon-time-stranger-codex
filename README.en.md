@@ -330,7 +330,14 @@ No. The repository holds guide data and the viewer code only.
 
 ## Changelog
 
-### v1.10.4 — 2026-11-22 · Renamed to Complete Codex & Evolution Graph
+### v1.10.5 — 2026-11-22 · Official personality names and the four quadrants
+
+- The personality table now uses the official localised names (zh: 慈爱 / 牺牲奉献 / 包容力 / 过度保护 / 热血 / 勇敢 / 匹夫之勇 / 胆识非凡 / 天启 / 坏点子 / 聪颖 / 战略家 / 投机分子 / 和蔼可亲 / 善于社交 / 饶富人情味)
+- English and Japanese labels corrected to the official ones: Adoring / Devoted / Tolerant / Overprotective / Zealous / Brave / Reckless / Daring / Enlightened / Sly / Astute / Strategic / Opportunistic / Friendly / Sociable / Compassionate, and 慈愛 / 献身的 / 包容力 / 過保護 / 熱血 / 勇敢 / 蛮勇 / 豪胆 / 天啓 / 悪知恵 / 聡慧 / 戦略家 / 日和見 / 気さく / 社交的 / 人情家
+- Each row carries a quadrant colour dot plus a legend underneath: Philanthropy (+SPI) / Valor (+ATK) / Wisdom (+INT) / Amicability (+DEF); the hover tooltip names the quadrant too
+- The table scrolls horizontally on narrow screens, so long names no longer wrap
+
+##### v1.10.4 — Renamed to Complete Codex & Evolution Graph
 
 - The project is renamed to match what it actually contains: not just evolution links but stats, resistances, skills and profile text for all 475 Digimon
 - Repository `digimon-time-stranger-guide` → `digimon-time-stranger-codex`; the site now lives at https://kazuko2012.github.io/digimon-time-stranger-codex/
