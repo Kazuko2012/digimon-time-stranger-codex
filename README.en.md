@@ -330,7 +330,13 @@ No. The repository holds guide data and the viewer code only.
 
 ## Changelog
 
-### v1.10.5 — 2026-11-22 · Official personality names and the four quadrants
+### v1.10.6 — 2026-11-22 · Card personality and evolution conditions use the official 16 names
+
+- Fixed the mismatch between the card's "Personality" field (old tags such as 蛮勇 / 随和 / 护崽 / 健谈) and the personality table: all tags now map to the official 16 and carry the quadrant plus bonus, e.g. "匹夫之勇（勇猛 +攻击）" / "Overprotective（Philanthropy +SPI）"
+- Evolution conditions of the form "X's personality is …" now use the official names too, and on EN / JA the Digimon name in that line is localised (`Ankylomon / Personality: Overprotective`, `アンキロモン / 性格：過保護`)
+- The English legend reads "+ATK" instead of "+ ATK", so on narrow screens `Valor +` and `ATK)` no longer split into two lines
+
+##### v1.10.5 — Official personality names and the four quadrants
 
 - The personality table now uses the official localised names (zh: 慈爱 / 牺牲奉献 / 包容力 / 过度保护 / 热血 / 勇敢 / 匹夫之勇 / 胆识非凡 / 天启 / 坏点子 / 聪颖 / 战略家 / 投机分子 / 和蔼可亲 / 善于社交 / 饶富人情味)
 - English and Japanese labels corrected to the official ones: Adoring / Devoted / Tolerant / Overprotective / Zealous / Brave / Reckless / Daring / Enlightened / Sly / Astute / Strategic / Opportunistic / Friendly / Sociable / Compassionate, and 慈愛 / 献身的 / 包容力 / 過保護 / 熱血 / 勇敢 / 蛮勇 / 豪胆 / 天啓 / 悪知恵 / 聡慧 / 戦略家 / 日和見 / 気さく / 社交的 / 人情家
