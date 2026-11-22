@@ -1363,7 +1363,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.10.8 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一 / 性格名统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.10.9 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一 / 性格名统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -1392,6 +1392,12 @@ const DATA = {"nodes":[{"n":1,"jp":"クラモン","cn":"水母兽","s":"幼年�
 /* 图片改为外链：assets/icons/001.webp ... 475.webp（与页面同目录） */
 const N = DATA.nodes;
 const BY = {}; N.forEach(d=>BY[d.n]=d);
+const BYN = {}; N.forEach(d=>{ if(d.cn) BYN[d.cn]=d.n; if(d.jp) BYN[d.jp]=d.n; });
+/* 「由「X」切换形态」→ 记录形态切换来源，用于把形态切换画成同层并排除步数 */
+const isFormPair=(a,b)=>FORMSRC[a]===b||FORMSRC[b]===a;
+const FORMSRC = {};
+N.forEach(d=>{ const m=((d.c||[]).find(t=>/^由「(.+)」切换形态$/.test(t))||'').match(/^由「(.+)」切换形态$/);
+  if(m){ const sid=BYN[m[1]]; if(sid&&sid!==d.n) FORMSRC[d.n]=sid; } });
 const $ = s=>document.querySelector(s);
 
 /* ================= 白天 / 夜间 / 跟随系统（三模式） ================= */
@@ -2585,6 +2591,14 @@ function buildLineage(center, keepView){
   const upD={center:0};
   (function uWalk(id){ (BY[id].v||[]).forEach(pp=>{ if(!shown.has(pp)) return; if(upD[pp]===undefined){ upD[pp]=upD[id]-1; uWalk(pp); } }); })(center);
 
+  /* 形态伙伴：同一层级的另一种形态，随节点一起显示 */
+  for(let pass=0; pass<4; pass++){
+    let add=false;
+    [...shown].forEach(id=>{ const p=FORMSRC[id];
+      if(p&&universe.has(p)&&!shown.has(p)&&p!==id){ shown.add(p); add=true; } });
+    if(!add) break;
+  }
+
   /* 每个可见节点“还没显示出来”的直系下一代数量（点一次只展开一层，徽标就按这一层算） */
   const descN={};
   shown.forEach(id=>{
@@ -2612,11 +2626,23 @@ function buildLineage(center, keepView){
     seenP.add(id);
     const ch = (LV.exp.has(id) ? (kids[id]||[]).slice().sort((a,b)=>(GSTAGES.indexOf(BY[a].s)-GSTAGES.indexOf(BY[b].s))||(a-b)) : [])
       .filter(c=>BY[c] && !seenP.has(c));
-    if(!ch.length){ pos[id]={x:d*COLGAP,y:cursorY}; cursorY+=ROWGAP; return; }
-    ch.forEach(c=>place(c,d+1));
-    const a1=pos[ch[0]], b1=pos[ch[ch.length-1]];
-    if(!a1 || !b1 || a1.y===undefined || b1.y===undefined){ pos[id]={x:d*COLGAP,y:cursorY}; cursorY+=ROWGAP; return; }
-    pos[id]={x:d*COLGAP,y:(a1.y+b1.y)/2};
+    const frm=ch.filter(c=>isFormPair(id,c));      /* 形态切换：同层级 */
+    const norm=ch.filter(c=>!isFormPair(id,c));
+    if(!norm.length && !frm.length){ pos[id]={x:d*COLGAP,y:cursorY}; cursorY+=ROWGAP; return; }
+    norm.forEach(c=>place(c,d+1));
+    let y;
+    if(norm.length){ const a1=pos[norm[0]], b1=pos[norm[norm.length-1]];
+      y=(a1&&b1&&a1.y!==undefined&&b1.y!==undefined)?(a1.y+b1.y)/2:cursorY++;
+      if(y===undefined){ y=cursorY; cursorY+=ROWGAP; }
+    } else { y=cursorY; cursorY+=ROWGAP; }
+    pos[id]={x:d*COLGAP,y};
+    frm.forEach((c,k)=>{ /* 同列、紧贴下方，形成「同一阶段的两种形态」 */
+      if(pos[c]) return;
+      pos[c]={x:d*COLGAP, y:y+(CH+14)*(k+1)};
+      seenP.add(c);
+      const kk=(LV.exp.has(c)?(kids[c]||[]).slice().sort((a,b)=>(GSTAGES.indexOf(BY[a].s)-GSTAGES.indexOf(BY[b].s))||(a-b)):[]).filter(x=>BY[x]&&!seenP.has(x)&&!isFormPair(c,x));
+      kk.forEach(x=>place(x,d+1));
+    });
   })(center,0);
 
   /* 上游节点（祖先 / 点 ↑ 拉出来的其它进化源）：统一放在子代左侧一列，纵向对齐子代均值，逐层向上 */
@@ -2705,12 +2731,21 @@ function buildLineage(center, keepView){
   shown.forEach(id=>{
     (BY[id].x||[]).forEach(to=>{
       if(!shown.has(to)) return;
+      if(isFormPair(id,to) && !(id<to)) return;   /* 形态对只画一次 */
       eTotal++;
       const dm=dimmed && (!lvMatch(id)||!lvMatch(to));
       if(!dm) eShown++;
       const a=pos[id], b=pos[to];
       const x1=a.x+CW, y1=a.y+CH/2, x2=b.x, y2=b.y+CH/2, mx=(x1+x2)/2;
       const hot=(id===center||to===center) && !dm;
+      if(isFormPair(id,to)){
+        /* 形态切换：竖直虚线 + 「形态」标签 */
+        const fx=(a.x+CW/2), fy1=Math.min(a.y,b.y)+CH, fy2=Math.max(a.y,b.y);
+        paths+=`<path data-a="${id}" data-b="${to}" data-w="1.5" data-form="1"${dm?' data-dim="1"':''} d="M${fx},${fy1} L${fx},${fy2}" fill="none"
+          stroke="${edgeStroke(hot)}" stroke-width="1.5" stroke-dasharray="5 5"${dm?' stroke-opacity=".16"':''}/>`;
+        paths+=`<text data-a="${id}" data-b="${to}" data-form="1" x="${fx+7}" y="${(fy1+fy2)/2+4}" font-size="10" fill="#8fa4c9"${dm?' fill-opacity=".3"':''}>形态</text>`;
+        return;
+      }
       paths+=`<path data-a="${id}" data-b="${to}" data-w="${hot?2:1.5}"${dm?' data-dim="1"':''} d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none"
         stroke="${edgeStroke(hot)}" stroke-width="${hot?2:1.5}"${dm?' stroke-opacity=".16"':''}/>`;
     });
@@ -2718,7 +2753,19 @@ function buildLineage(center, keepView){
   ledges.innerHTML=paths;
 
   const ac=Object.keys(upD).length-1, dc=Object.keys(dD).length-1;
-  $('#lstats').innerHTML=`<b>${nameOf(BY[center])}</b> 为中心 · 祖 <b>${ac}</b> · 后 <b>${dc}</b> · 显示 <b>${shown.size}</b>/<b>${universe.size}</b>`
+  /* 「祖/后」按非形态边计算：形态切换算同层级，不另计一代 */
+  let fCnt=0; shown.forEach(id=>{ if(FORMSRC[id]&&shown.has(FORMSRC[id])&&id!==center) fCnt++; });
+  const bfsNoForm=(dir)=>{ const dep={[center]:0}; let q=[center], d=0, go=true;
+    while(go){ const nx=[]; go=false; d++;
+      for(const id of q){ const nd=BY[id]; if(!nd) continue;
+        for(const to of ((dir==='down'?nd.x:nd.v)||[])){
+          if(!BY[to]||!shown.has(to)||dep[to]!==undefined) continue;
+          if(isFormPair(id,to)) continue;   /* 形态切换不计代 */
+          dep[to]=d; nx.push(to); go=true; } }
+      q=nx; }
+    return Object.keys(dep).length-1; };
+  const acN=Math.min(ac, bfsNoForm('up')), dcN=Math.min(dc, bfsNoForm('down'));
+  $('#lstats').innerHTML=`<b>${nameOf(BY[center])}</b> 为中心 · 祖 <b>${acN}</b> · 后 <b>${dcN}</b>${fCnt?` · 形态 <b>${fCnt}</b>`:''} · 显示 <b>${shown.size}</b>/<b>${universe.size}</b>`
     + (dimmed?` · 筛选命中 <b>${shown.size-dimCount}</b> 只`:'');
 
   const adj=n=>{ const a=[...(BY[n].x||[]),...(BY[n].v||[])]; return a.filter(x=>shown.has(x)); };
@@ -3379,12 +3426,14 @@ document.addEventListener('click',e=>{ if(!e.target.closest('.lsearchwrap')) lsu
 
 $('#lfit').onclick=()=>fitLineage('fit');
 $('#lexpall').onclick=()=>{
-  const all=LV.__allNodes||[LV.center];
+  const all=(LV.__allNodes||[LV.center]).filter(id=>BY[id]);
   const full=LV.exp && LV.exp.size>=all.length;
-  if(full){ LV.exp=new Set([LV.center]); LV.expUp=new Set(); LV.extra=new Set(); $('#lexpall').textContent='展开全部'; }
-  else { LV.exp=new Set(all); LV.expUp=new Set(all); $('#lexpall').textContent='收起全部'; }
-  if(LV.inited && !LV.pending) buildLineage(LV.center);
-  setTimeout(()=>fitLineage('fit'),40);
+  if(full){ LV.exp=new Set([LV.center]); LV.expUp=new Set(); LV.extra=new Set(); }
+  else { LV.exp=new Set(all); LV.expUp=new Set(all); }
+  const eb=$('#lexpall'); if(eb) eb.textContent = full ? '展开全部' : '收起全部';
+  if(LV.inited) buildLineage(LV.center);
+  setTimeout(()=>fitLineage('fit'),60);
+  setTimeout(()=>fitLineage('fit'),140);
 };
 /* 「回到亚古兽」按钮已移除 */
 $('#lmulti').onclick=()=>setMulti(!LV.multi);

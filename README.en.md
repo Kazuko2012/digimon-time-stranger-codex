@@ -332,7 +332,14 @@ No. The repository holds guide data and the viewer code only.
 
 ## Changelog
 
-### v1.10.8 — 2026-11-22 · No more legacy personality tags in evolution conditions
+### v1.10.9 — 2026-11-22 · Form changes share the same tier; expand-all hardened
+
+- "Switch form from X" no longer counts as a generation: the alternate form is drawn in the same column just below the node, linked by a dashed vertical line labelled 形态, instead of taking a new column on the right
+- Duplicate form edges (the data stores them both ways) are drawn once, so the two nodes no longer point at each other; when the centre is the alternate form, the original form is shown as well (previously only 1 of 2 was visible)
+- Counts follow the same rule: `up / down` skip form changes and show "form N" separately
+- Expand-all hardened: rebuild is no longer skipped by the pending flag, non-existent ids are filtered out, fit-to-window runs twice after expanding, and the button label stays in sync with the canvas
+
+##### v1.10.8 · No more legacy personality tags in evolution conditions
 
 - After a full sweep, two spots still printed the old tags (护崽 / 蛮勇 / 健谈 …): the "Evolves to" hover tooltip in the lineage view and each step of the evolution-route query
 - Every place that renders conditions (detail card, lineage condition panel, "evolves to" tooltip, route steps) now goes through the same mapping — official names in Chinese, with the Digimon names in those lines localised for EN / JA
