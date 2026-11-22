@@ -12,6 +12,8 @@ An **offline field guide plus interactive evolution graph** for *Digimon Story: 
 | Releases (latest only) | https://github.com/Kazuko2012/digimon-time-stranger-codex/releases |
 
 > This repository contains **reference data and a viewer only**. It ships no game executable, no save files and nothing that could be used for piracy.
+>
+> **Built for personal use**: made for the author to look things up while playing, and shared with fellow fans. No commercial service, no fees, no ads, no boosting or reselling, and no user data collected.
 
 ---
 
@@ -375,7 +377,7 @@ No. The repository holds guide data and the viewer code only.
 - Evolution conditions are freely translated; wording may differ from the in-game text, which is authoritative
 - Icons come from in-game assets and are used for this fan reference only
 
-This is a non-commercial fan project. All Digimon characters, names and artwork belong to Bandai Namco Entertainment and their respective owners. The code is released under MIT; that licence does **not** extend to third-party game assets. Should a rights holder object, the relevant content will be taken down immediately.
+This is a fan-made project **for the author's personal use**, shared for non-commercial purposes only. All Digimon characters, names and artwork belong to Bandai Namco Entertainment and their respective owners. The code is released under MIT; that licence does **not** extend to third-party game assets. Should a rights holder object, the relevant content will be taken down immediately.
 
 ## License
 
