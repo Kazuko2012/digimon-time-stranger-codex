@@ -462,6 +462,13 @@ body.light .dx-tip{color:#7b8aa2}
   pointer-events:none;opacity:0;transform:translateY(-4px);transition:opacity .12s,transform .12s;
   background:rgba(12,20,40,.96);border:1px solid rgba(79,216,255,.45);color:#dbe8ff;
   box-shadow:0 10px 26px rgba(0,0,0,.45);backdrop-filter:blur(4px)}
+.ptip .pt-h{margin-bottom:5px;line-height:1.5}
+.ptip .pt-r{display:flex;gap:6px;margin-top:3px;line-height:1.5}
+.ptip .pt-k{flex:none;opacity:.7}
+.ptip .pt-col{flex-direction:column;gap:2px}
+.ptip{max-width:318px}
+.ptip .pt-v{display:flex;flex-wrap:wrap;gap:2px 8px}
+.ptip .pt-c{white-space:nowrap}
 .ptip.on{opacity:1;transform:none}
 .ptip b{color:#fff}
 .ptip .up{color:#7ff0bc}
@@ -1356,7 +1363,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.10.6 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一 / 性格名统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.10.7 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一 / 性格名统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -1692,14 +1699,13 @@ function persTip(){
       const tr=ev.target.closest && ev.target.closest('.prow');
       if(!tr){ return; }
       __ptip.innerHTML=tr.dataset.tip.split('|').map((t,i)=>{
-        if(i===0) return t;
-        if(t.indexOf('相对基准')>=0){
-          const head=t.split('：')[0]+'：';
-          const items=t.slice(head.length).split('、').map(x=>
-            `<span style="white-space:nowrap">${x.replace(/([+-]\d+)/g,m=>`<span class="${m[0]==='+'?'up':'dn'}">${m}</span>`)}</span>`);
-          return head+items.join('、');
-        }
-        return `<div style="opacity:.85">${t}</div>`;
+        if(i===0) return `<div class="pt-h">${t}</div>`;
+        if(t.indexOf('：')<0) return `<div class="pt-r"><span class="pt-v" style="opacity:.8">${t}</span></div>`;
+        const head=t.split('：')[0]+'：';
+        const items=t.slice(head.length).split('、').filter(Boolean).map(x=>
+          `<span class="pt-c">${x.replace(/([+-]\d[\d,]*)/g,m=>`<span class="${m[0]==='+'?'up':'dn'}">${m}</span>`)}</span>`);
+        if(head.length>9) return `<div class="pt-r pt-col"><span class="pt-k">${head}</span><span class="pt-v">${items.join('')}</span></div>`;
+        return `<div class="pt-r"><span class="pt-k">${head}</span><span class="pt-v">${items.join('')}</span></div>`;
       }).join('');
       __ptip.classList.add('on');
     });
@@ -1711,6 +1717,16 @@ function persTip(){
       if(x+w>window.innerWidth-8) x=ev.clientX-w-14;
       if(y<8) y=ev.clientY+18;
       __ptip.style.left=x+'px'; __ptip.style.top=y+'px';
+    });
+    dbody.addEventListener('click',ev=>{
+      const tr=ev.target.closest && ev.target.closest('.prow');
+      if(!tr || !window.matchMedia || !window.matchMedia('(hover:none)').matches) return;
+      if(__ptip.classList.contains('on') && __ptip.dataset.row===String(tr.dataset.i||'')){ __ptip.classList.remove('on'); return; }
+      const b=tr.getBoundingClientRect();
+      tr.dataset.i=tr.dataset.i||String(Math.random());
+      tr.dispatchEvent(new MouseEvent('mouseover',{bubbles:true,clientX:b.left+24,clientY:b.top+b.height/2}));
+      tr.dispatchEvent(new MouseEvent('mousemove',{bubbles:true,clientX:b.left+24,clientY:b.top+b.height/2}));
+      __ptip.dataset.row=String(tr.dataset.i);
     });
     dbody.addEventListener('mouseout',ev=>{
       if(!(ev.relatedTarget && ev.relatedTarget.closest && ev.relatedTarget.closest('.prow'))) __ptip.classList.remove('on');
@@ -1839,10 +1855,14 @@ function dxHTML(n){
       KK.forEach((k,j)=>{ const d=98*(g[j]-gd[j]); if(d>0) up.push(KN[j]+' +'+d); else if(d<0) dn.push(KN[j]+' '+d); });
       const grow=KK.map((k,j)=>g[j]?KN[j].replace('最大','')+' +'+g[j]+'/级':'').filter(Boolean).join('、');
       const grp=PGRP[i]||'', gc=PGRP_C[grp]||'#8fa4c9';
-      const tip=[`<b>${PERS_CN[i]}</b>${grp?' · '+pgrpName(grp)+'（'+PGRP_ADD[grp]+'）':''}${cur?'（本兽初始性格）':''}`,
+      const gdSum=PGROW[e.pd].reduce((a,b)=>a+b,0);
+      const totBase=KK.reduce((a,k)=>a+base[k],0)+98*gdSum;
+      const baseName=pdCn(PERS_CN[e.pd]||'');
+      const grpCn=grp?`${pgrpName(grp)} ${pgrpAdd(grp)}`:'';
+      const tip=[`<b>${cur?'★ ':''}${PERS_CN[i]}</b>${grpCn?' · <span style="opacity:.75">'+grpCn+'</span>':''}${cur?'<span style="opacity:.6">（本兽初始性格）</span>':''}`,
                  grow?`每级成长：${grow}`:'每级成长：无加成',
-                 (up.length||dn.length)?`Lv.99 相对基准：${[...up,...dn].join('、')}`:'Lv.99 与基准相同',
-                 `合计：${tot}`].join('|');
+                 (up.length||dn.length)?`Lv.99 相对基准（★ ${baseName}）：${[...up,...dn].join('、')}`:'Lv.99 与基准相同',
+                 `合计：${tot}${tot!==totBase?'（相对基准 '+(tot-totBase>0?'+':'')+(tot-totBase)+'）':''}`].join('|');
       return `<tr class="prow${cur?' cur':''}" data-tip="${tip.replace(/"/g,'&quot;')}"><td><span class="pgd" style="background:${gc}" aria-hidden="true"></span>${cur?'<span class="pstar">★</span> ':''}${PERS_CN[i]}</td>${
         KK.map(k=>`<td>${v[k]}</td>`).join('')}<td class="sum">${tot}</td></tr>`;
     }).join('');
@@ -1850,7 +1870,7 @@ function dxHTML(n){
       <div class="dx-pw"><table class="dx-pers"><thead><tr><th>性格</th><th>HP</th><th>SP</th><th>攻</th><th>防</th><th>智</th><th>精</th><th>敏</th><th>合计</th></tr></thead>
       <tbody>${rows}</tbody></table></div>
       <div class="pgleg">${['博爱','勇猛','知启','友好'].map(g=>`<span><i style="background:${PGRP_C[g]}"></i>${pgrpName(g)} ${pgrpAdd(g)}</span>`).join('')}</div>
-      <div class="dx-tip">基准为「无加成」的 Lv.99 数值，各性格在此基础上按每级成长累加（98 级 × 成长值）。</div>`;
+      <div class="dx-tip">基准为「无加成」的 Lv.99 数值，各性格在此基础上按每级成长累加（98 级 × 成长值）；悬停或轻点任一行可看该性格的成长明细。</div>`;
   })():'';
   const skills=(e.skills||[]).length?`<div class="dx-h"><i></i>习得技能<span>${e.skills.length} 个</span></div>${sk}`:'';
   const desc=e.desc?`<div class="dx-h"><i></i>图鉴简介</div><div class="dx-desc">${e.desc}</div>`:'';

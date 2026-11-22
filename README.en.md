@@ -330,7 +330,13 @@ No. The repository holds guide data and the viewer code only.
 
 ## Changelog
 
-### v1.10.6 — 2026-11-22 · Card personality and evolution conditions use the official 16 names
+### v1.10.7 — 2026-11-22 · Personality table tooltip relayout
+
+- The tooltip is now "title + line items": name and quadrant on the first line, then per-level growth, the Lv.99 delta and the total each on its own line, so numbers are no longer split by the list separator
+- The comparison base is stated explicitly ("relative to ★ Reckless"), and the total row shows the delta against that base with coloured +/- signs
+- On touch devices, tapping a personality row opens the detail and tapping again closes it; the note under the table mentions this
+
+##### v1.10.6 · Card personality and evolution conditions use the official 16 names
 
 - Fixed the mismatch between the card's "Personality" field (old tags such as 蛮勇 / 随和 / 护崽 / 健谈) and the personality table: all tags now map to the official 16 and carry the quadrant plus bonus, e.g. "匹夫之勇（勇猛 +攻击）" / "Overprotective（Philanthropy +SPI）"
 - Evolution conditions of the form "X's personality is …" now use the official names too, and on EN / JA the Digimon name in that line is localised (`Ankylomon / Personality: Overprotective`, `アンキロモン / 性格：過保護`)
