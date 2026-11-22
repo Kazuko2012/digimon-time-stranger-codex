@@ -330,7 +330,12 @@ No. The repository holds guide data and the viewer code only.
 
 ## Changelog
 
-### v1.10.7 — 2026-11-22 · Personality table tooltip relayout
+### v1.10.8 — 2026-11-22 · No more legacy personality tags in evolution conditions
+
+- After a full sweep, two spots still printed the old tags (护崽 / 蛮勇 / 健谈 …): the "Evolves to" hover tooltip in the lineage view and each step of the evolution-route query
+- Every place that renders conditions (detail card, lineage condition panel, "evolves to" tooltip, route steps) now goes through the same mapping — official names in Chinese, with the Digimon names in those lines localised for EN / JA
+
+##### v1.10.7 · Personality table tooltip relayout
 
 - The tooltip is now "title + line items": name and quadrant on the first line, then per-level growth, the Lv.99 delta and the total each on its own line, so numbers are no longer split by the list separator
 - The comparison base is stated explicitly ("relative to ★ Reckless"), and the total row shows the delta against that base with coloured +/- signs

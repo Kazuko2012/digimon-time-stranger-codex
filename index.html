@@ -1363,7 +1363,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.10.7 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一 / 性格名统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.10.8 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一 / 性格名统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -1758,7 +1758,7 @@ function condTip(){
     const head = l==='en' ? ('Conditions to evolve into <b>'+nm+'</b>')
                : l==='ja' ? (nm+'への進化条件')
                : ('进化为 <b>'+nm+'</b> 的条件');
-    const tail = cs.length ? ('<ul style="margin:0;padding:0">'+cs.map(c=>'<li><em>◆</em><span>'+escTxt(c)+'</span></li>').join('')+'</ul>')
+    const tail = cs.length ? ('<ul style="margin:0;padding:0">'+cs.map(c=>'<li><em>◆</em><span>'+escTxt(condFix(c))+'</span></li>').join('')+'</ul>')
                : ('<div class="none">'+(l==='en'?'No special conditions':l==='ja'?'特殊条件なし':'无特殊条件')+'</div>');
     return '<div class="h">'+head+'</div>'+tail;
   };
@@ -2355,7 +2355,7 @@ function drawPath(){
   box.innerHTML=`<div class="phead"><span style="font-size:12.5px;color:var(--sub)">${tag}共 <b class="pn">${path.length-1}</b> 步${live?' · 点「查询」可固定结果':''}${path.length-1>4?' · 下方可滚动查看全部':''}</span>${alt}</div>${fbTip}`+
     path.map((n,i)=>{
       const d=BY[n]; const sc=stageColor[d.s]||'#8fa4c9';
-      const condText = i===0 ? '起点' : (BY[path[i]].c.length?BY[path[i]].c.join('；'):'无特殊条件');
+      const condText = i===0 ? '起点' : (BY[path[i]].c.length?BY[path[i]].c.map(condFix).join('；'):'无特殊条件');
       return `<div class="pstep" data-n="${n}"><span class="idx">${i+1}</span>
         <img width="112" height="112" decoding="async" src="${iconPath(n)}" onerror="this.style.opacity=0">
         <div class="tx"><b>${nameOf(d)} <span style="font-weight:400;color:var(--sub);font-size:11.5px">No.${String(n).padStart(3,'0')} · ${d.s}</span></b>
