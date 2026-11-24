@@ -184,6 +184,38 @@ body.light .dview button.on{border-color:rgba(15,131,184,.65);background:rgba(15
 .mrow{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
 .mrow span{display:block;font-size:11px;color:var(--sub);letter-spacing:.06em}
 .mrow b{font-size:13.5px;font-weight:600;color:#eaf3ff}
+.mrow b.pd2{display:flex;flex-wrap:wrap;align-items:center;gap:5px 6px}
+.pd2 .pd-name{white-space:nowrap;font-size:13.5px;font-weight:600;color:#eaf3ff}
+.pd2 .pd-add{white-space:nowrap;font-size:11.5px;font-weight:600;line-height:1.5;padding:1px 7px;border-radius:7px;
+  color:#bfe4ff;background:rgba(79,216,255,.12);border:1px solid rgba(79,216,255,.28)}
+body.light .pd2 .pd-name{color:#16223a}
+body.light .pd2 .pd-add{color:#0f6d99;background:rgba(15,131,184,.10);border-color:rgba(15,131,184,.28)}
+/* ---------- 详情卡：分页 Tab（概览 / 进化 / 数值 / 耐性·技能） ---------- */
+.dtabbar{position:sticky;z-index:5;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:0 0 6px;padding:8px 0 8px;
+  background:linear-gradient(180deg,#0b1224 78%,rgba(11,18,36,0))}
+body.light .dtabbar{background:linear-gradient(180deg,#fff 78%,rgba(255,255,255,0))}
+.dtabbar button{height:32px;padding:0 10px;justify-content:center;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+  color:#a9bfe0;font-size:12.5px;font-family:inherit;cursor:pointer;line-height:1;display:inline-flex;align-items:center;gap:6px;transition:.15s}
+.dtabbar button:hover{background:rgba(79,216,255,.14);color:#eaf9ff}
+.dtabbar button.on{border-color:rgba(79,216,255,.7);background:linear-gradient(120deg,rgba(79,216,255,.24),rgba(167,139,250,.24));color:#fff;font-weight:700}
+.dtabbar .tb{font-size:10px;padding:1px 6px;border-radius:999px;background:rgba(120,170,255,.2);color:#cfe0ff;font-weight:600}.dtabbar button.on .tb{background:rgba(255,255,255,.22);color:#fff}
+body.light .dtabbar button{background:#fff;color:#4a5c78;border-color:rgba(15,131,184,.3)}
+body.light .dtabbar button.on{color:#0b2233;border-color:rgba(15,131,184,.7);background:rgba(15,131,184,.12)}
+body.light .dtabbar .tb{background:rgba(15,131,184,.14);color:#0f6d99}
+body.light .dtabbar button.on .tb{background:#0f6d99;color:#fff}
+.dpane{display:none}
+.dpane.on{display:block}
+/* Tab 放不下一行时（多为英文长标签），改成等宽 2×2，避免末端孤零零掉一行 */
+.dtabbar.tb2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.dtabbar.tb2 button{width:100%;justify-content:center;padding:0 8px}
+@media (max-width:460px){
+  .dtabbar{gap:4px}
+  .dtabbar button{padding:0 10px;font-size:11.5px}
+}
+.dpfbtn{margin-top:10px;width:100%;height:36px;border-radius:10px;border:1px dashed rgba(79,216,255,.45);
+  background:rgba(79,216,255,.06);color:#bcd8ff;font-size:12.5px;font-family:inherit;cursor:pointer;transition:.15s}
+.dpfbtn:hover{background:rgba(79,216,255,.14);color:#fff}
+body.light .dpfbtn{background:#fff;color:#1b4a6b;border-color:rgba(15,131,184,.45)}
 .sec{margin-top:20px}
 .sec-h{display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:.08em;color:#9fc4ff;margin-bottom:10px}
 .sec-h i{width:3px;height:14px;border-radius:2px;background:linear-gradient(180deg,var(--cyan),var(--violet))}
@@ -193,6 +225,9 @@ body.light .dview button.on{border-color:rgba(15,131,184,.65);background:rgba(15
   border:1px solid rgba(79,216,255,.16);background:linear-gradient(120deg,rgba(79,216,255,.07),rgba(255,255,255,.02))}
 .cond li em{color:var(--cyan);font-style:normal;flex:none}
 .rel{display:flex;flex-direction:column;gap:7px}
+.rel .ritem[data-role="f"]{border-style:dashed;border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.07)}
+.rel .ritem[data-role="f"]:hover{border-color:rgba(167,139,250,.85);background:rgba(167,139,250,.14)}
+.rel .ritem[data-role="f"] .go{color:#c9b6ff}
 .ritem{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);
   background:rgba(255,255,255,.03);cursor:pointer;transition:.15s}
 .ritem:hover{border-color:rgba(79,216,255,.5);background:rgba(79,216,255,.08);transform:translateX(2px)}
@@ -434,7 +469,15 @@ body.lvonly .gwrap{position:fixed;left:12px;right:12px;top:calc(var(--tbh,120px)
 .dx-sk .nm{font-size:12px;font-weight:700;color:#fff}
 .dx-sk .nm em{font-style:normal;font-size:10px;font-weight:500;color:#8fa6cf;margin-left:5px}
 .dx-sk .mt{font-size:10.5px;color:#9fb3d6;margin-top:2px}
+.dx-sk .mt-i{white-space:nowrap}
+.dx-sk .mt-g{display:block;line-height:1.55}
+.dx-sk .mt-sep{opacity:.45;margin:0 4px}
 .dx-sk .fx{font-size:10.5px;color:#b9cbe8;margin-top:2px;line-height:1.6}
+/* 弱点 / 抗性 / 无效 按「种族 / 属性」分行，避免两类混在一起 */
+.wr{display:flex;flex-direction:column;gap:3px;font-size:10.5px;line-height:1.8}
+.wr-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+.wr-row b{color:#8fa6cf;font-weight:600;flex:none;min-width:26px}
+.wr-row span{white-space:nowrap}
 
 .pgd{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:1px;opacity:.95}
 .pgleg{display:flex;flex-wrap:wrap;gap:10px;font-size:10.5px;color:#9fb3d6;margin:8px 0 2px}
@@ -878,6 +921,7 @@ body.light .dlang{background:rgba(20,45,90,.04)}
 body.light .dlang button{color:#4a5c78}
 body.light .dlang button.on{color:#0b2233}
 .dnav{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px;padding:10px 210px 10px 0;background:var(--bg2);flex-wrap:wrap;row-gap:8px}
+.dnrow{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0}
 .dclose,.dcopy{z-index:6}
 @media (max-width:900px){
   /* 手机/窄屏：顶栏不做 sticky —— iOS Safari 下 sticky 在抽屉滚动容器里会悬在页面中间压住内容 */
@@ -1104,6 +1148,30 @@ body.light .lmini{background:rgba(255,255,255,.95)}
   .dclose,.dcopy{width:32px;height:32px}
   .dtop{gap:6px;margin-right:-4px}
 }
+/* 窄屏顶栏：上一只 / 序数 / 下一只 固定一行，语言组独占第二行，顶部预留右上角工具区，避免错位 */
+@media (max-width:900px){
+  .dnav{padding:48px 6px 8px 0!important;flex-wrap:wrap!important;gap:6px!important;align-items:center!important}
+  .dnav .dnrow{flex:1 1 100%;min-width:0;flex-wrap:nowrap;justify-content:space-between}
+  .dnav .dnrow #dprev,.dnav .dnrow #dnext{flex:0 0 auto;white-space:nowrap}
+  .dnav .dnrow .dnavpos{flex:0 1 auto;margin:0 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+  .dnav .dlang{order:9;flex:0 0 auto;margin-left:0}
+}
+/* 手机窄屏：顶栏压紧 —— 工具按钮和「返回」同处顶部一行，导航行居中且左右箭头紧贴序数，去掉中间空洞 */
+@media (max-width:640px){
+  .dnav{padding:4px 0 8px!important;justify-content:center!important;gap:6px!important}
+  .dnav .dnrow{flex:0 0 auto!important;width:100%;justify-content:center;gap:10px}
+  .dnav .dlang{align-self:flex-start!important;order:9;margin-left:0!important}
+  .dtop{position:fixed!important;top:8px!important;right:14px!important;height:auto!important;z-index:6!important}
+  .dclose,.dcopy{width:32px;height:32px}
+}
+/* 宽视口 + 抽屉被拖窄：按抽屉实际宽度切换紧凑顶栏（不依赖视口媒体查询，避免拉窄后错位） */
+body.dxn .dnav{padding:48px 6px 8px 0!important;flex-wrap:wrap!important;gap:6px!important;align-items:center!important}
+body.dxn .dnav .dnrow{flex:1 1 100%;min-width:0;flex-wrap:nowrap;justify-content:space-between}
+body.dxn .dnav .dnrow #dprev,body.dxn .dnav .dnrow #dnext{flex:0 0 auto;white-space:nowrap}
+body.dxn .dnav .dnrow .dnavpos{flex:0 1 auto;margin:0 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+body.dxn .dnav .dlang{order:9;flex:0 0 auto;margin-left:0}
+body.dxn .dtabbar{gap:4px}
+body.dxn .dtabbar button{padding:0 10px;font-size:11.5px}
 /* ================= v1.9.6 筛选区改为「一行一组」 ================= */
 .filters{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
 .fgroup{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%}
@@ -1363,7 +1431,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.10.9 · 构建 2026-11-22 · 含移动端适配 / 多语言对齐 / 面板防重叠 / 宽度对齐 / GitHub 入口 / 抽屉顶栏统一 / 性格名统一</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.11.0 · 构建 2026-11-24 · 含双页签详情卡 / 技能名多语言 / 图例动态化 / 形态切换分组 / 窄屏紧凑顶栏 / 拖拽限宽</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -1837,16 +1905,41 @@ function dxHTML(n){
   const spk=SPK.filter(k=>e.sp_res&&e.sp_res[k]), elk=ELK.filter(k=>e.el_res&&e.el_res[k]);
   const spRows=spk.map(k=>{const [c,t]=sym(e.sp_res[k]);return `<td class="${c}">${t}</td>`;}).join('');
   const elRows=elk.map(k=>{const [c,t]=sym(e.el_res[k]);return `<td class="${c}">${t}</td>`;}).join('');
-  const resist=`<div class="dx-h"><i></i>种族耐性 · 属性耐性<span>◎◯抗性 / △弱点 / ✕无效</span></div>
+  const ELN={'火':1,'水':1,'草':1,'草木':1,'冰':1,'电':1,'地':1,'地面':1,'钢':1,'风':1,'光':1,'暗':1,'无':1};
+  const SPN={'疫苗':1,'数据':1,'病毒':1,'自由':1,'可变':1,'不明':1,'无资料':1};
+  const splitRes=arr=>{const sp=[],el=[];(arr||[]).forEach(v=>{ if(ELN[v]) el.push(v); else if(SPN[v]) sp.push(v); });return {sp,el};};
+  const wrSeg=(lab,arr,color)=>arr.length?`<span style="color:${color}">${lab}${arr.join('、')}</span>`:'';
+  const wrRows=[['种族','sp'],['属性','el']].map(([k,t])=>{
+    const w=splitRes(e.weak)[t], r=splitRes(e.resist)[t], im=splitRes(e.immune)[t];
+    if(!w.length&&!r.length&&!im.length) return '';
+    return `<div class="wr-row"><b>${k}</b>${wrSeg('弱点：',w,'#ff9bbc')}${wrSeg('抗性：',r,'#7ff0bc')}${wrSeg('无效：',im,'#a78bfa')}</div>`;
+  }).join('');
+  const allRV=[...(e.sp_res?Object.values(e.sp_res):[]),...(e.el_res?Object.values(e.el_res):[])];
+  const rvHas=(...s)=>s.some(x=>allRV.includes(x));
+  const legParts=['○ 抗性'];
+  if(rvHas('△')) legParts.push('△ 弱点');
+  if(rvHas('◎')) legParts.push('◎ 免疫');
+  if(rvHas('×','✕')) legParts.push('✕ 无效');
+  const legHtml=legParts.map(p=>`<span class="lg-i">${p}</span>`).join(' · ');
+  const resist=`<div class="dx-h"><i></i>种族耐性 · 属性耐性<span>${legHtml}</span></div>
     ${spk.length?`<table class="dx-res"><thead><tr><th>种族</th>${spk.map(k=>`<th>${k}</th>`).join('')}</tr></thead><tbody><tr><td style="color:#93a6c8">耐性</td>${spRows}</tr></tbody></table>`:''}
     ${elk.length?`<table class="dx-res" style="margin-top:8px"><thead><tr><th>属性</th>${elk.map(k=>`<th>${k}</th>`).join('')}</tr></thead><tbody><tr><td style="color:#93a6c8">耐性</td>${elRows}</tr></tbody></table>`:''}
-    ${(e.weak||[]).length||(e.resist||[]).length||(e.immune||[]).length?`<div style="margin-top:8px;font-size:10.5px;color:#9fb3d6;line-height:1.9">${(e.weak||[]).length?'<span style="color:#ff9bbc">弱点：'+e.weak.join('、')+'</span>':''}${(e.resist||[]).length?'<span style="color:#7ff0bc;margin-left:10px">抗性：'+e.resist.join('、')+'</span>':''}${(e.immune||[]).length?'<span style="color:#a78bfa;margin-left:10px">无效：'+e.immune.join('、')+'</span>':''}</div>`:''}`;
+    ${wrRows?`<div class="wr" style="margin-top:8px">${wrRows}</div>`:''}`;
+  const DICT=(typeof UI_LANG!=='undefined'&&UI_LANG[LANG])||{};
+  const mtTxt=x=>{ if(DICT[x]) return DICT[x];
+    const m=String(x).match(/^([^\d]+?)\s*([\d].*)$/);
+    if(m && DICT[m[1].trim()]) return DICT[m[1].trim()]+' '+m[2];
+    return x; };
   const sk=(e.skills||[]).map(k=>{
-    const mt=(k.meta||[]).filter(x=>x).join(' · ');
+    const metas=(k.meta||[]).filter(x=>x);
+    const grp=arr=>arr.map(x=>`<span class="mt-i">${mtTxt(x)}</span>`).join('<span class="mt-sep">·</span>');
+    const mt=metas.length? (metas.length>3
+      ? `<div class="mt"><div class="mt-g">${grp(metas.slice(0,3))}</div><div class="mt-g">${grp(metas.slice(3))}</div></div>`
+      : `<div class="mt"><div class="mt-g">${grp(metas)}</div></div>`) : '';
     const fx=(k.fx||[]).join('；');
     return `<div class="dx-sk"><div class="l ${k.is_special?'sp':''}">${k.is_special?'专属':'Lv.'+k.lv}</div>
-      <div class="b"><div class="nm">${k.name}<em>${k.elem||''}</em></div>
-      ${mt?`<div class="mt">${mt}</div>`:''}${fx?`<div class="fx">${fx}</div>`:''}</div></div>`;
+      <div class="b"><div class="nm">${(LANG==='en'&&SKN[k.name])?SKN[k.name]:k.name}<em>${k.elem||''}</em></div>
+      ${mt}${fx?`<div class="fx">${fx}</div>`:''}</div></div>`;
   }).join('');
   const pers=(e.lv99&&e.pd>=0)?(()=>{
     const KK=['hp','sp','atk','def','int','spi','spd'];
@@ -1880,11 +1973,11 @@ function dxHTML(n){
   })():'';
   const skills=(e.skills||[]).length?`<div class="dx-h"><i></i>习得技能<span>${e.skills.length} 个</span></div>${sk}`:'';
   const desc=e.desc?`<div class="dx-h"><i></i>图鉴简介</div><div class="dx-desc">${e.desc}</div>`:'';
-  return stats+pers+resist+skills+desc;
+  return {stats,pers,resist,skills,desc};
 }
 /* ---------- 侧栏：拖动调宽 / 一键半屏·全屏 ---------- */
 const DW_KEY='dg_dw', DV_KEY='dg_dview';
-let dview='half', dwCustom=0;
+let dview='half', dwCustom=0, DTAB='ov';
 const drawerEl=()=>document.getElementById('drawer');
 function placeDrawerTools(){
   const dr=drawerEl(), h=document.getElementById('dhnd'), v=document.getElementById('dview');
@@ -1894,13 +1987,23 @@ function placeDrawerTools(){
   const hf=document.getElementById('dHalf'), fu=document.getElementById('dFull');
   if(hf) hf.classList.toggle('on', dview==='half');
   if(fu) fu.classList.toggle('on', dview==='full');
+  /* 宽视口下把抽屉拖窄到 640px 以内时，切紧凑顶栏，防止导航/语言组挤变形 */
+  try{ document.body.classList.toggle('dxn', iw>900 && w<720); }catch(e){}
+}
+/* 详情卡宽度安全区间：窄屏固定满宽（禁止拖窄），宽屏限制在 420px ~ min(1200, 80%视口)，避免拖出 UI 变形 */
+function drawerLimits(iw){
+  iw=iw||window.innerWidth;
+  if(iw<=900) return {min:iw,max:iw,lock:true};
+  return {min:Math.max(420,Math.round(iw*0.30)),max:Math.min(1200,Math.round(iw*0.80)),lock:false};
 }
 function setDrawerWidth(w,state){
   const dr=drawerEl(); if(!dr) return;
-  const iw=window.innerWidth, min=Math.min(340,iw);
-  w=Math.max(min, Math.min(iw, Math.round(w||iw*0.5)));
+  const iw=window.innerWidth;
+  if(state==='full'){ dview='full'; dr.style.setProperty('--dw', iw+'px'); placeDrawerTools(); return; }
+  const lim=drawerLimits(iw);
+  w=Math.max(lim.min, Math.min(lim.max, Math.round(w||iw*0.5)));
   if(state) dview=state;
-  dr.style.setProperty('--dw', w+'px');
+  if(dview!=='full'){ dr.style.setProperty('--dw', w+'px'); if(dview==='custom'||state==='custom') dwCustom=w; }
   if(typeof __ctip!=='undefined' && __ctip) __ctip.classList.remove('on');
   placeDrawerTools();
 }
@@ -1926,10 +2029,15 @@ function showDrawerTools(on){
     h.addEventListener('dblclick',()=>{ setDrawerWidth(window.innerWidth*0.5,'half'); save(DV_KEY,'half'); });
     h.addEventListener('pointerdown',ev=>{
       if(ev.button!==undefined && ev.button!==0) return;
+      const lim=drawerLimits(); if(lim.lock) return;   /* 窄屏满宽，不可拖动 */
       ev.preventDefault();
       document.body.classList.add('dw-drag');
       try{ h.setPointerCapture(ev.pointerId); }catch(e){}
-      const mv=e2=>{ dwCustom=Math.max(340, Math.min(window.innerWidth, window.innerWidth-e2.clientX)); setDrawerWidth(dwCustom,'custom'); };
+      const mv=e2=>{
+        const l=drawerLimits();
+        const w=Math.round(Math.max(l.min, Math.min(l.max, window.innerWidth-e2.clientX)));
+        if(w!==dwCustom){ dwCustom=w; setDrawerWidth(w,'custom'); }
+      };
       const up=()=>{
         document.body.classList.remove('dw-drag');
         h.removeEventListener('pointermove',mv);
@@ -1963,9 +2071,22 @@ function openDrawer(n, keepDL){
       <span class="stg" style="color:${c2};border-color:${c2}55">${o.s}</span>
       <span class="go">查看 ›</span>
     </div>`;
-  }).join('') : `<div style="color:var(--sub);font-size:13px">${d.n>=1?'无（初始可获得形态）':'无'}</div>`;
+  }).join('') : `<div style="color:var(--sub);font-size:13px">${role==='v'?'无（初始可获得形态）':'无'}</div>`;
 
+  const isFormTo=k=>(typeof isFormPair==='function')&&isFormPair(n,k);
+  const formList=[...d.x.filter(isFormTo), ...d.v.filter(isFormTo)].filter((k,i,arr)=>arr.indexOf(k)===i);
+  const xN=d.x.filter(k=>!isFormTo(k)), vN=d.v.filter(k=>!isFormTo(k));
+  const dx=(dxHTML(n)||{});
+  const LBS={zh:{ov:'概览 · 进化链',st:'数值 · 耐性 · 技能',fold:'展开 16 种性格对比',unfold:'收起 16 种性格对比'},
+             en:{ov:'Overview · Evolution',st:'Stats · Resist · Skills',fold:'Show all 16 personalities',unfold:'Hide 16 personalities'},
+             ja:{ov:'概要・進化',st:'数値・耐性・スキル',fold:'16 性格の比較を開く',unfold:'16 性格の比較を閉じる'}};
+  const LB=LBS[DLX]||LBS.zh;
   $('#dbody').innerHTML=`
+    <div class="dtabbar" id="dtabbar" role="tablist" aria-label="详情分页">
+      <button type="button" data-tab="ov" role="tab">${LB.ov}<span class="tb">${d.v.length+d.x.length}</span></button>
+      <button type="button" data-tab="sk" role="tab">${LB.st}${(d.skills&&d.skills.length)?`<span class="tb">${d.skills.length}</span>`:''}</button>
+    </div>
+    <div class="dpane" data-pane="ov">
     <div class="dhead">
       <div class="big"><img width="112" height="112" decoding="async" src="${iconPath(n)}" onerror="this.style.display='none'"></div>
       <div>
@@ -1980,31 +2101,68 @@ function openDrawer(n, keepDL){
     </div>
     <div class="dmeta">
       <div class="mrow"><span>类型</span><b>${d.t}</b></div>
-      <div class="mrow"><span>性格</span><b>${pdLabel(d.p)}</b></div>
+      <div class="mrow"><span>性格</span><b class="pd2">${(()=>{
+        const pl=pdLabel(d.p); const m=pl.match(/^(.*?)([（(])(.+)([）)])$/);
+        return m?`<span class="pd-name">${m[1]}</span><span class="pd-add">${m[3]}</span>`:`<span class="pd-name">${pl}</span>`;
+      })()}</b></div>
       <div class="mrow"><span>可退化自</span><b>${d.v.length} 只</b></div>
       <div class="mrow"><span>可进化为</span><b>${d.x.length} 只</b></div>
     </div>
 
-    <div class="sec">
+    ${dx.desc||''}
+    <button class="route-btn" id="fromHere">以「${nameOf(d)}」为起点查路线</button>
+    <button class="route-btn lv-btn" id="lvHere">在谱系图中查看「${nameOf(d)}」的全部前后</button>
+    <div class="sec" style="margin-top:6px">
       <div class="sec-h"><i></i>进化条件<span class="n">进化成此形态所需</span></div>
       ${conds}
     </div>
 
     <div class="sec">
-      <div class="sec-h"><i></i>可退化自（进化前）<span class="n">${d.v.length}</span></div>
-      <div class="rel">${relItems(d.v,"v")}</div>
+      <div class="sec-h"><i></i>可退化自（进化前）<span class="n">${vN.length}</span></div>
+      <div class="rel">${relItems(vN,"v")}</div>
     </div>
 
     <div class="sec">
-      <div class="sec-h"><i></i>可进化为（进化后）<span class="n">${d.x.length}${d.x.length?' · 悬停查看进化条件':''}</span></div>
-      <div class="rel">${relItems(d.x,"x")}</div>
+      <div class="sec-h"><i></i>可进化为（进化后）<span class="n">${xN.length}${xN.length?' · 悬停查看进化条件':''}</span></div>
+      <div class="rel">${relItems(xN,"x")}</div>
     </div>
 
-    ${dxHTML(n)}
+    ${formList.length?`<div class="sec">
+      <div class="sec-h"><i></i>形态切换（同阶）<span class="n">${formList.length} · 不计入代数</span></div>
+      <div class="rel">${relItems(formList,"f")}</div>
+    </div>`:''}
+    </div>
 
-    <button class="route-btn" id="fromHere">以「${nameOf(d)}」为起点查路线</button>
-    <button class="route-btn lv-btn" id="lvHere">在谱系图中查看「${nameOf(d)}」的全部前后</button>
+    <div class="dpane" data-pane="sk">
+    ${dx.stats||''}
+    ${dx.pers?`<button class="dpfbtn" id="dpfbtn" type="button" aria-expanded="false" aria-controls="dpf">${LB.fold}</button><div id="dpf" hidden>${dx.pers}</div>`:''}
+    ${dx.resist||''}
+    ${dx.skills||''}
+    </div>
   `;
+  const barEl=$('#dtabbar'), dbodyEl=$('#dbody');
+  const setDTab=k=>{
+    if(!barEl) return;
+    DTAB=k;
+    barEl.querySelectorAll('button').forEach(b=>{ const on=b.dataset.tab===k; b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false'); });
+    dbodyEl.querySelectorAll('.dpane').forEach(p=>p.classList.toggle('on',p.dataset.pane===k));
+    const dr=$('#drawer'); if(dr) dr.scrollTop=0;
+  };
+  if(barEl) barEl.querySelectorAll('button').forEach(b=>b.onclick=ev=>{ ev.stopPropagation(); setDTab(b.dataset.tab); });
+  const dpfbtn=document.getElementById('dpfbtn');
+  if(dpfbtn) dpfbtn.onclick=()=>{
+    const p=document.getElementById('dpf'); if(!p) return;
+    const open=p.hasAttribute('hidden');
+    if(open) p.removeAttribute('hidden'); else p.setAttribute('hidden','');
+    dpfbtn.textContent=open?LB.unfold:LB.fold;
+    dpfbtn.setAttribute('aria-expanded',open?'true':'false');
+  };
+  setDTab(DTAB==='evo'?'ov':(DTAB==='st'?'sk':(DTAB||'ov')));
+  try{
+    const tbE=$('#dtabbar');
+    if(tbE){ tbE.classList.remove('tb2'); const bs=[...tbE.querySelectorAll('button')];
+      if(bs.length){ const t0=bs[0].getBoundingClientRect().top; if(bs.some(b=>Math.abs(b.getBoundingClientRect().top-t0)>2)) tbE.classList.add('tb2'); } }
+  }catch(e){}
   try{
     const dr=$('#drawer'); const wasOpen=dr.classList.contains('on');
     dr.scrollTop=0;
@@ -2015,10 +2173,13 @@ function openDrawer(n, keepDL){
     const tNext = DL0==='en'?'Next':(DL0==='ja'?'次へ':'下一只');
     const tPos  = DL0==='zh' ? ('第 <b>'+(oi+1)+'</b> / '+order.length+' 只') : ('<b>'+(oi+1)+'</b> / '+order.length);
     const dlgHtml='<div class="dlang" id="dlang" role="group" aria-label="详情卡语言">'+[['zh','中文'],['en','EN'],['ja','日本語']].map(([v,t])=>'<button type="button" data-l="'+v+'"'+(DLX===v?' class="on"':'')+'>'+t+'</button>').join('')+'</div>';
-    nav.innerHTML='<button id="dprev" type="button"'+(oi<=0?' disabled':'')+'><span class="ar">‹</span><span class="tx">'+tPrev+'</span></button>'
+    const bk=document.getElementById('dback'); if(bk) bk.textContent = DL0==='en'?'‹ Back':(DL0==='ja'?'‹ 戻る':'‹ 返回');
+    nav.innerHTML='<div class="dnrow"><button id="dprev" type="button"'+(oi<=0?' disabled':'')+'><span class="ar">‹</span><span class="tx">'+tPrev+'</span></button>'
       +'<span class="dnavpos">'+tPos+'</span>'
-      +'<button id="dnext" type="button"'+(oi<0||oi>=order.length-1?' disabled':'')+'><span class="tx">'+tNext+'</span><span class="ar">›</span></button>'+dlgHtml;
+      +'<button id="dnext" type="button"'+(oi<0||oi>=order.length-1?' disabled':'')+'><span class="tx">'+tNext+'</span><span class="ar">›</span></button></div>'+dlgHtml;
     $('#dbody').prepend(nav);
+    const barS=$('#dtabbar');
+    if(barS){ const st=getComputedStyle(nav).position; barS.style.top=(st==='sticky'? (nav.offsetHeight||0) : 0)+'px'; }
     const step=k=>{const t=order[oi+k]; if(t) openDrawer(t.n);};
     $('#dprev').onclick=()=>step(-1); $('#dnext').onclick=()=>step(1);
     const dlg=document.getElementById('dlang');
@@ -3472,10 +3633,15 @@ const TYPE_JA={"种族不明": "種族不明", "机械型": "マシーン型", "
 /* ======== 多语言（中 / EN / 日本語） ======== */
 const UI_LANG={en:{"幼年期Ⅰ": "In-Training I", "幼年期Ⅱ": "In-Training II", "成长期": "Rookie", "成熟期": "Champion", "完全体": "Ultimate", "究极体": "Mega", "超究极体": "Ultra", "装甲体": "Armor", "混合体": "Hybrid", "疫苗": "Vaccine", "数据": "Data", "病毒": "Virus", "自由": "Free", "可变": "Variable", "不明": "Unknown", "未公开": "Unrevealed", "无资料": "N/A", "种族不明": "Unidentified", "火": "Fire", "水": "Water", "草木": "Wood", "草": "Grass", "冰": "Ice", "电": "Thunder", "地面": "Earth", "地": "Earth", "钢": "Steel", "风": "Wind", "光": "Light", "暗": "Dark", "无": "Neutral", "热血": "Zealous", "随和": "Easygoing", "蛮勇": "Reckless", "豪胆": "Bold", "健谈": "Talkative", "天启": "Enlightened", "谋略": "Tactician", "包容": "Tolerant", "狡智": "Cunning", "观望": "Cautious", "奉献": "Devoted", "护崽": "Protective", "勇敢": "Brave", "重情": "Loyal", "胆识非凡": "Daring", "博爱": "Philanthropy", "勇猛": "Valor", "知启": "Wisdom", "友好": "Amicability", "匹夫之勇": "Reckless", "慈爱": "Adoring", "牺牲奉献": "Devoted", "包容力": "Tolerant", "过度保护": "Overprotective", "饶富人情味": "Compassionate", "善于社交": "Sociable", "和蔼可亲": "Friendly", "投机分子": "Opportunistic", "聪颖": "Astute", "战略家": "Strategic", "坏点子": "Sly", "图鉴卡片": "Cards", "谱系图": "Lineage", "进化路线": "Routes", "进化路线查询": "Route Finder", "标准": "Normal", "大图": "Large", "无图": "No images", "单图": "Files", "精灵图": "Sprite", "收起筛选": "Hide filters", "显示筛选": "Show filters", "☀ 白天模式": "☀ Day", "☾ 夜间模式": "☾ Night", "◐ 跟随系统": "◐ Auto", "正序": "Asc", "倒序": "Desc", "当前正序（↑），点击切换为倒序": "Ascending (↑) — click for descending", "当前倒序（↓），点击切回正序": "Descending (↓) — click for ascending", "随电脑外观自动切换，点击切到白天": "Follows your OS appearance — click for day mode", "当前为白天模式，点击切到夜间": "Day mode — click for night", "当前为夜间模式，点击切回跟随系统": "Night mode — click for auto", "当前为夜间模式，点击切换白天": "Night mode — click for day mode", "当前为白天模式，点击切换夜间": "Day mode — click for night mode", "当前显示": "Showing", "阶段": "Stage", "属性": "Attribute", "条件": "Condition", "✕ 清除全部筛选": "✕ Clear all", "全部": "All", "全部属性": "All attributes", "全部阶段": "All stages", "收起全部": "Collapse all", "展开全部": "Expand all", "适应窗口": "Fit", "多选": "Multi", "多选中": "Multi (on)", "选一只数码兽开始": "Start with a Digimon", "从左侧列表点选任意一只，即可展开它的完整谱系（全部祖先与后代）": "Pick any Digimon on the left to unfold its full lineage — all ancestors and descendants.", "‹ 返回": "‹ Back", "半屏": "Half", "全屏": "Full", "类型": "Type", "性格": "Personality", "可退化自": "Pre-evolutions", "可进化为": "Evolutions", "进化条件": "Evolution conditions", "进化成此形态所需": "required to reach this form", "可退化自（进化前）": "Pre-evolutions (from)", "可进化为（进化后）": "Evolutions (to)", "无特殊条件": "No special conditions", "无（初始可获得形态）": "None (initial form)", "查看 ›": "View ›", "图鉴简介": "Profile", "习得技能": "Learned skills", "专属": "Unique", "等级数值": "Stats", "项目": "Stat", "成长": "Growth", "合计": "Total", "最大HP": "Max HP", "最大SP": "Max SP", "攻击": "ATK", "防御": "DEF", "智力": "INT", "精神": "SPI", "敏捷": "SPD", "攻": "ATK", "防": "DEF", "智": "INT", "精": "SPI", "敏": "SPD", "Lv.99 各性格数值": "Lv.99 by personality", "无加成，★ 为该兽初始性格": "No bonus; ★ = its initial personality", "种族耐性 · 属性耐性": "Species / Element resistance", "种族": "Species", "耐性": "Res.", "◎◯抗性 / △弱点 / ✕无效": "◎◯ resist / △ weak / ✕ null", "弱点": "Weak", "抗性": "Resist", "无效": "Null", "弱点：": "Weak: ", "抗性：": "Resist: ", "无效：": "Null: ", "（无加成）": "(no bonus)", "Lv.1 / Lv.99（无加成 · 初始性格）": "Lv.1 / Lv.99 (no bonus · initial personality)", "基准为「无加成」的 Lv.99 数值，各性格在此基础上按每级成长累加（98 级 × 成长值）。": "Baseline is the no-bonus Lv.99 value; each personality adds per-level growth (98 levels × growth value).", "每级成长": "Growth per level", "本兽初始性格": "its initial personality", "Lv.99 与基准相同": "Lv.99 same as baseline", "Lv.99 相对基准": "Lv.99 vs baseline", "为中心 · 祖": "is the center · ancestors", "· 后": "· descendants", "· 显示": "· shown", "· 共": "· total", "条等长路线": "equal-length routes", "起点": "Start", "终点": "End", "允许退化": "Allow de-evolution", "查询": "Search", "关闭": "Close", "请选择起点": "Select start", "请选择终点": "Select end", "全部（清空）": "All (clear)", "没有匹配的数码兽": "No matching Digimon", "没有匹配的数码兽，换个关键词试试～": "No matches — try another keyword.", "没有符合筛选条件的数码兽，换个条件或清空筛选": "No Digimon match the filters — change them or clear all.", "同长度路线": "Equal-length routes", "路线": "Route", "点「查询」可固定结果": "Click Search to pin the result", "起点与终点是同一只，换一个终点再试试。": "Start and end are the same — pick another end.", "画布只显示这条系谱，其余数码兽已隐藏。": "Only this lineage is shown; other Digimon are hidden.", "收录数码兽": "Digimon", "进化关系": "Evolution links", "成长阶段": "Stages", "属性类别": "Attributes", "阅读说明": "Notes", "需 DLC": "Requires DLC", "※需要早期购入特典／DLC「预购礼包」": "※ Requires early-purchase bonus / DLC \"Pre-order Pack\"", "※需要购买 DLC 剧情包1": "※ Requires DLC Story Pack 1", "※需要购买 DLC 剧情包2": "※ Requires DLC Story Pack 2", "※需要购买 DLC 剧情包3": "※ Requires DLC Story Pack 3", "探员等级": "Tamer Lv.", "才能值": "Talent", "物理": "Physical", "魔法": "Magic", "輔助": "Support", "威力": "Power", "攻擊次數": "Hits", "命中": "Accuracy", "敵方1體": "1 foe", "敵方全體": "All foes", "我方1體": "1 ally", "我方全體": "All allies", "自己": "Self", "固定%HP": "Fixed % HP", "混亂": "Confusion", "錯亂": "Berserk", "睡眠": "Sleep", "昏睡": "Drowsy", "麻痺": "Paralyze", "中毒": "Poison", "劇毒": "Severe poison", "液晶化": "Pixelize", "挑釁": "Taunt", "反轉": "Reverse", "即死": "Instant death", "無法行動": "Cannot act", "毅力": "Guts", "受傷": "Injured", "受傷／生病": "Injured / sick", "異常狀態": "Status ailment", "狀態提升": "Buff", "狀態下降": "Debuff", "魔法反射": "Magic reflect", "物理反射": "Physical reflect", "魔法蓄力": "Magic charge", "物理蓄力": "Physical charge", "攻擊提升": "ATK up", "攻擊下降": "ATK down", "防禦提升": "DEF up", "防禦下降": "DEF down", "智力提升": "INT up", "智力下降": "INT down", "精神提升": "SPI up", "精神下降": "SPI down", "敏捷提升": "SPD up", "敏捷下降": "SPD down", "命中率下降": "Accuracy down", "迴避率下降": "Evasion down", "CRT率下降": "Crit rate down", "暴擊率提升": "Crit rate up", "火抗性下降": "Fire res. down", "水抗性下降": "Water res. down", "冰抗性下降": "Ice res. down", "雷抗性下降": "Thunder res. down", "風抗性下降": "Wind res. down", "光抗性下降": "Light res. down", "闇抗性下降": "Dark res. down", "鋼抗性下降": "Steel res. down", "地面抗性下降": "Earth res. down", "無抗性下降": "Neutral res. down", "狀態下降無效": "Debuff immunity", "回合": "turns", "搜索：中文名 / 日文名 / 编号，如 亚古兽、アグモン、21": "Search: name / Japanese name / No., e.g. Agumon, アグモン, 21", "搜索数码兽（中文名 / 日文名 / 编号）": "Search Digimon (name / Japanese name / No.)", "查询两只数码兽之间的进化路线": "Find the evolution route between two Digimon", "图鉴卡片 / 谱系图 的图片显示方式": "Image display for cards / lineage", "单图：按需逐张加载；精灵图：一张大图切片，一次请求": "Files: load one by one; Sprite: one sheet, one request", "手动显示 / 隐藏筛选卡片（阶段、属性、条件）": "Toggle the filter panel (stage, attribute, conditions)", "切换白天 / 夜间模式": "Toggle day / night mode", "清空阶段 / 属性 / 条件筛选与所有搜索词": "Clear stage / attribute / condition filters and all searches", "视图切换": "View switch", "搜索谱系中心": "Search lineage center", "搜索数码兽作为谱系中心：亚古兽 / アグモン / 21": "Search a Digimon as lineage center: Agumon / アグモン / 21", "缩小（-）": "Zoom out (-)", "放大（+）": "Zoom in (+)", "适应窗口（双击空白处同样生效）": "Fit to window (double-click empty space)", "筛选左侧数码兽列表": "Filter the left Digimon list", "搜索编号 / 中文名 / 日文名": "Search No. / name / Japanese name", "当前列表条数": "Items in list", "左右拖动调整详情宽度（双击回到半屏）": "Drag to resize the panel (double-click for half screen)", "展开 / 收起候选列表": "Open / close the candidate list", "交换起点与终点": "Swap start and end", "起点：点开下拉选择，或输入 黑球兽 / 006": "Start: open the list, or type Kuramon / 006", "终点：点开下拉选择，或输入 奥米加兽 / 200": "End: open the list, or type Omnimon / 200"},ja:{"幼年期Ⅰ": "幼年期Ⅰ", "幼年期Ⅱ": "幼年期Ⅱ", "成长期": "成長期", "成熟期": "成熟期", "完全体": "完全体", "究极体": "究極体", "超究极体": "超究極体", "装甲体": "装甲体", "混合体": "ハイブリッド体", "疫苗": "ワクチン", "数据": "データ", "病毒": "ウィルス", "自由": "フリー", "可变": "可変", "不明": "不明", "未公开": "未公開", "无资料": "データなし", "种族不明": "種族不明", "火": "火", "水": "水", "草木": "草木", "草": "草", "冰": "氷", "电": "雷", "地面": "地面", "地": "地", "钢": "鋼", "风": "風", "光": "光", "暗": "闇", "无": "無", "热血": "熱血", "随和": "温和", "蛮勇": "蛮勇", "豪胆": "豪胆", "健谈": "話好き", "天启": "天啓", "谋略": "謀略", "包容": "包容", "狡智": "狡猾", "观望": "様子見", "奉献": "献身", "护崽": "子煩悩", "勇敢": "勇敢", "重情": "情に厚い", "胆识非凡": "豪胆", "匹夫之勇": "蛮勇", "慈爱": "慈愛", "牺牲奉献": "献身的", "包容力": "包容力", "过度保护": "過保護", "饶富人情味": "人情家", "善于社交": "社交的", "和蔼可亲": "気さく", "投机分子": "日和見", "聪颖": "聡慧", "战略家": "戦略家", "坏点子": "悪知恵", "博爱": "博愛", "勇猛": "勇壮", "知启": "知啓", "友好": "友好", "图鉴卡片": "カード", "谱系图": "系譜図", "进化路线": "進化ルート", "进化路线查询": "進化ルート検索", "标准": "標準", "大图": "大画像", "无图": "画像なし", "单图": "個別画像", "精灵图": "スプライト", "收起筛选": "フィルターを閉じる", "显示筛选": "フィルターを表示", "☀ 白天模式": "☀ デイ", "☾ 夜间模式": "☾ ナイト", "◐ 跟随系统": "◐ 自動", "正序": "昇順", "倒序": "降順", "当前正序（↑），点击切换为倒序": "昇順（↑） — クリックで降順", "当前倒序（↓），点击切回正序": "降順（↓） — クリックで昇順", "随电脑外观自动切换，点击切到白天": "OSの外観に追従（クリックでデイ）", "当前为白天模式，点击切到夜间": "デイモード — クリックでナイト", "当前为夜间模式，点击切回跟随系统": "ナイトモード — クリックで自動", "当前为夜间模式，点击切换白天": "ナイトモード — クリックでデイモード", "当前为白天模式，点击切换夜间": "デイモード — クリックでナイトモード", "当前显示": "表示中", "阶段": "世代", "属性": "属性", "条件": "条件", "✕ 清除全部筛选": "✕ 全解除", "全部": "すべて", "全部属性": "すべての属性", "全部阶段": "すべての世代", "收起全部": "すべて折りたたむ", "展开全部": "すべて展開", "适应窗口": "ウィンドウに合わせる", "多选": "複数選択", "多选中": "複数選択中", "选一只数码兽开始": "デジモンを選んで開始", "从左侧列表点选任意一只，即可展开它的完整谱系（全部祖先与后代）": "左のリストからデジモンを選ぶと、祖先と子孫を含む系譜全体が展開されます。", "‹ 返回": "‹ 戻る", "半屏": "半画面", "全屏": "全画面", "类型": "タイプ", "性格": "性格", "可退化自": "退化元", "可进化为": "進化先", "进化条件": "進化条件", "进化成此形态所需": "この形態になるための条件", "可退化自（进化前）": "退化元（進化前）", "可进化为（进化后）": "進化先（進化後）", "无特殊条件": "特殊条件なし", "无（初始可获得形态）": "なし（初期入手形態）", "查看 ›": "詳細 ›", "图鉴简介": "図鑑プロフィール", "习得技能": "習得スキル", "专属": "専用", "等级数值": "レベル数値", "项目": "項目", "成长": "成長", "合计": "合計", "最大HP": "最大HP", "最大SP": "最大SP", "攻击": "攻撃", "防御": "防御", "智力": "知力", "精神": "精神", "敏捷": "敏捷", "攻": "攻", "防": "防", "智": "知", "精": "精", "敏": "敏", "Lv.99 各性格数值": "Lv.99 性格別数値", "无加成，★ 为该兽初始性格": "補正なし・★は初期性格", "种族耐性 · 属性耐性": "種族耐性・属性耐性", "种族": "種族", "耐性": "耐性", "◎◯抗性 / △弱点 / ✕无效": "◎◯耐性 / △弱点 / ✕無効", "弱点": "弱点", "抗性": "耐性", "无效": "無効", "弱点：": "弱点：", "抗性：": "耐性：", "无效：": "無効：", "（无加成）": "（補正なし）", "Lv.1 / Lv.99（无加成 · 初始性格）": "Lv.1 / Lv.99（補正なし・初期性格）", "基准为「无加成」的 Lv.99 数值，各性格在此基础上按每级成长累加（98 级 × 成长值）。": "基準は補正なしのLv.99値。各性格はここに毎レベル成長（98レベル×成長値）を加算したものです。", "每级成长": "毎レベル成長", "本兽初始性格": "この個体の初期性格", "Lv.99 与基准相同": "Lv.99 は基準と同じ", "Lv.99 相对基准": "Lv.99 の基準差", "为中心 · 祖": "を中心 · 祖先", "· 后": "· 子孫", "· 显示": "· 表示", "· 共": "· 全", "条等长路线": "本の同長ルート", "起点": "始点", "终点": "終点", "允许退化": "退化を許可", "查询": "検索", "关闭": "閉じる", "请选择起点": "始点を選択", "请选择终点": "終点を選択", "全部（清空）": "すべて（解除）", "没有匹配的数码兽": "一致するデジモンがありません", "没有匹配的数码兽，换个关键词试试～": "一致なし。別のキーワードでお試しください。", "没有符合筛选条件的数码兽，换个条件或清空筛选": "条件に合うデジモンがいません。条件を変えるか全解除してください。", "同长度路线": "同長ルート", "路线": "ルート", "点「查询」可固定结果": "「検索」で結果を固定", "起点与终点是同一只，换一个终点再试试。": "始点と終点が同じです。別の終点を選んでください。", "画布只显示这条系谱，其余数码兽已隐藏。": "この系譜のみ表示中。他のデジモンは非表示です。", "收录数码兽": "収録デジモン", "进化关系": "進化関係", "成长阶段": "成長段階", "属性类别": "属性区分", "阅读说明": "凡例", "需 DLC": "DLCが必要", "※需要早期购入特典／DLC「预购礼包」": "※早期購入特典／DLC「予約パック」が必要", "※需要购买 DLC 剧情包1": "※DLCシナリオパック1の購入が必要", "※需要购买 DLC 剧情包2": "※DLCシナリオパック2の購入が必要", "※需要购买 DLC 剧情包3": "※DLCシナリオパック3の購入が必要", "探员等级": "テイマーLv.", "才能值": "才能値", "物理": "物理", "魔法": "魔法", "輔助": "補助", "威力": "威力", "攻擊次數": "攻撃回数", "命中": "命中", "敵方1體": "敵1体", "敵方全體": "敵全体", "我方1體": "味方1体", "我方全體": "味方全体", "自己": "自身", "固定%HP": "固定%HP", "混亂": "混乱", "錯亂": "錯乱", "睡眠": "睡眠", "昏睡": "居眠り", "麻痺": "麻痺", "中毒": "毒", "劇毒": "猛毒", "液晶化": "液晶化", "挑釁": "挑発", "反轉": "反転", "即死": "即死", "無法行動": "行動不能", "毅力": "根性", "受傷": "負傷", "受傷／生病": "負傷・病気", "異常狀態": "状態異常", "狀態提升": "強化", "狀態下降": "弱体", "魔法反射": "マジックリフレクト", "物理反射": "フィジカルリフレクト", "魔法蓄力": "魔法チャージ", "物理蓄力": "物理チャージ", "攻擊提升": "攻撃アップ", "攻擊下降": "攻撃ダウン", "防禦提升": "防御アップ", "防禦下降": "防御ダウン", "智力提升": "知力アップ", "智力下降": "知力ダウン", "精神提升": "精神アップ", "精神下降": "精神ダウン", "敏捷提升": "敏捷アップ", "敏捷下降": "敏捷ダウン", "命中率下降": "命中率ダウン", "迴避率下降": "回避率ダウン", "CRT率下降": "CRT率ダウン", "暴擊率提升": "CRT率アップ", "火抗性下降": "火耐性ダウン", "水抗性下降": "水耐性ダウン", "冰抗性下降": "氷耐性ダウン", "雷抗性下降": "雷耐性ダウン", "風抗性下降": "風耐性ダウン", "光抗性下降": "光耐性ダウン", "闇抗性下降": "闇耐性ダウン", "鋼抗性下降": "鋼耐性ダウン", "地面抗性下降": "地面耐性ダウン", "無抗性下降": "無耐性ダウン", "狀態下降無效": "弱体無効", "回合": "ターン", "搜索：中文名 / 日文名 / 编号，如 亚古兽、アグモン、21": "検索：名前 / 和名 / 番号（例：アグモン、21）", "搜索数码兽（中文名 / 日文名 / 编号）": "デジモン検索（名前 / 和名 / 番号）", "查询两只数码兽之间的进化路线": "2体のデジモン間の進化ルートを検索", "图鉴卡片 / 谱系图 的图片显示方式": "カード / 系譜図の画像表示", "单图：按需逐张加载；精灵图：一张大图切片，一次请求": "個別画像：必要に応じて読込／スプライト：1枚を分割", "手动显示 / 隐藏筛选卡片（阶段、属性、条件）": "フィルター（世代・属性・条件）の表示切替", "切换白天 / 夜间模式": "デイ / ナイトモード切替", "清空阶段 / 属性 / 条件筛选与所有搜索词": "世代・属性・条件フィルターと検索語を全解除", "视图切换": "表示切替", "搜索谱系中心": "系譜中心を検索", "搜索数码兽作为谱系中心：亚古兽 / アグモン / 21": "系譜中心のデジモンを検索：アグモン / 21", "缩小（-）": "縮小（-）", "放大（+）": "拡大（+）", "适应窗口（双击空白处同样生效）": "ウィンドウに合わせる（余白をダブルクリックでも可）", "筛选左侧数码兽列表": "左のデジモン一覧を絞り込む", "搜索编号 / 中文名 / 日文名": "番号 / 名前 / 和名で検索", "当前列表条数": "一覧の件数", "左右拖动调整详情宽度（双击回到半屏）": "ドラッグで幅を調整（ダブルクリックで半画面）", "展开 / 收起候选列表": "候補リストの開閉", "交换起点与终点": "始点と終点を入れ替え", "起点：点开下拉选择，或输入 黑球兽 / 006": "始点：リストから選択、または クラモン / 006", "终点：点开下拉选择，或输入 奥米加兽 / 200": "終点：リストから選択、または オメガモン / 200"}};
 const LANG_KEY='dg_lang';
+const SKN={"眼之強光":"Glare Eye","干擾粉末":"Jamming Powder","小鐵粒":"Little Iron Beads","黏著性泡泡":"Adhesive Bubble Blow","酸性泡泡":"Acid Bubbles","嚎叫赫茲":"Howling Hertz","破壞之劍Ⅰ":"Crush Blade I","泡泡":"Bubbles","雲霧汽油彈Ⅰ":"Wolkenapalm I","新月之葉Ⅰ":"Crescent Leaf I","彗星重鎚Ⅰ":"Comet Hammer I","釘之刻痕":"Nail Scratch","暗影之牙Ⅰ":"Shadow Fang I","牙咬":"Bite","音速射擊Ⅰ":"Sonic Shot I","金屬滴粒":"Metal Drop","妖狐之尾":"Fox Tail","神聖之光Ⅰ":"Holy Light I","毒性泡泡":"Poison Bubbles","力量能源Ⅰ":"Power Energy I","肥皂之花":"Soap Flower","荊棘強襲Ⅰ":"Thorn Strike I","空氣泡泡":"Air Bubbles","凍結子彈Ⅰ":"Frozen Bullet I","伸縮性泡泡":"Elastic Bubbles","發電水流Ⅰ":"Hydro Water I","微笑獠牙":"Smile Fang","烈風利爪Ⅰ":"Wind Claw I","小型火焰":"Pepper Breath","重度強襲Ⅰ":"Heavy Strike I","攻擊填充":"Attack Charge","絕光衝":"Blinding Ray","魚群大暴走":"Marching Fishes","冰柱之刃Ⅰ":"Icicle Edge I","防禦力場":"Guard Field","日冕火燄彈":"Corona Flame","岩漿墜擊Ⅰ":"Magma Fall I","二十連俯衝":"Twenty Dive","閃光環":"Shiny Ring","推進金屬Ⅰ":"Thruster Metal I","爆裂火焰Ⅰ":"Burst Flame I","小型龍捲風":"Terrier Tornado","治癒":"Heal","小型閃電":"Super Shocker","閃電墜擊Ⅰ":"Thunder Fall I","玩具火焰彈":"Plastic Blaze","奈米機械破壞Ⅰ":"Nanomachine Break I","麻痺電網":"Ripping Net","惡夢症候群":"Nightmare Syndrome","蓋亞爆破Ⅰ":"Gaia Blaster I","一刀兩半":"Downward Cleave","衝擊等離子Ⅰ":"Shock Plasma I","魔法火焰":"Spiral Twister","手裏裏劍":"Ninja Blade","爆擊填充":"Critical Charge","小狗怒吼":"Puppy Howl","無限耳光":"Super Slap","衝擊拳頭":"Knuckle Beater","居合刃":"Iai Blade","加速增幅器":"Acceleration Boost","瘋狂之門Ⅰ":"Lunatic Gate I","宏偉十字架":"Grand Cross","復活":"Revive","神聖之光Ⅲ":"Holy Light III","符文之森Ⅱ":"Rune Forest II","X靈氣":"X-Aura","閃光電擊":"Sparkling Thunder","雙重反擊":"Double Backhand","速度填充":"Speed Charge","巨剪處刑":"Scissors Execution","海嘯暴風Ⅰ":"Tidal Stream I","爆炎火焰彈":"Blue Blaster","指示箭頭":"Pointer Arrow","守備填充":"Guard Charge","迷你剪刀臂":"Mini Scissor Claw","憤怒岩石":"Rock Fist","炎擊面":"Hothead","搖滾之魂":"Rock Soul","幼龍吐息":"Baby Breath","點燃火焰Ⅰ":"Ignition Flare I","偶像泡沫":"Idle Bubble","金屬加農":"Metal Cannon","空氣炮":"Air Shot","調停者":"Meditator","五連閃":"Fifth Rush","天使之梯Ⅰ":"Angel Ladder I","毒蔓藤":"Poison Ivy","過敏噴霧":"Rain of Pollen","熱帶鳥嘴":"Tropical Beak","堅果射擊":"Seed Blast","淚珠射擊":"Tearing Shot","狐葉楔":"Diamond Storm","符文之森Ⅰ":"Rune Forest I","魔法填充":"Magic Charge","爆裂寒冰":"Blazing Ice","致命暴風雪Ⅰ":"Lethal Blizzard I","召喚":"Summon","地獄粉碎Ⅰ":"Hell Crusher I","睡之泡":"Lullaby Bubble","大海波浪Ⅰ":"Ocean Wave I","麻痺毒氣":"Electric Stun Blast","螺旋飛刃":"Spiral Edge","水之重壓Ⅰ":"Aqua Pressure I","破岩擊":"Rock Breaker","守備束縛":"Guard Bind","黑珍珠":"Black Pearl Blast","冰雪野人霹靂擊":"Snow Goblin Volt","速度束縛":"Speed Bind","鑽石之塵Ⅰ":"Diamond Dust I","乳酪炸彈":"Cheese Bomb","惡夢之眼":"Eye of Nightmares","靈魂恐懼Ⅰ":"Soul Fear I","黑暗齒輪":"Cog Crusher","鋼鐵斬擊Ⅰ":"Iron Slash I","小惡魔飛鏢":"Demi Darts","攻擊束縛":"Attack Bind","齒輪刺針":"Gear Stinger","攻擊破壞":"Attack Break","麻痺電擊":"Electric Shock","劇毒超蘑菇":"Fungus Crusher","結構痛擊":"Texture Blow","滾動攻擊":"Diamond Shell","地牛翻身Ⅰ":"Awesome Quake I","V仔頭槌":"Veemon Headbutt","羽毛回力鏢":"Feather Slash","粘性羅網":"Sticky Net","瘋狂大笑":"Crazy Giggle","劇毒陷阱":"Venom Trap","魔法束縛":"Magic Bind","逃竄毆襲":"Stun Beat Blow","引誘迴響":"Attract Echo","衝擊等離子Ⅱ":"Shock Plasma II","閃電墜擊Ⅱ":"Thunder Fall II","魚叉火神炮":"Harpoon Torpedo","冰柱之刃Ⅱ":"Icicle Edge II","發電水流Ⅱ":"Hydro Water II","旋轉飛針":"Spinning Needle","巨風暴Ⅰ":"Tempest I","速度力場":"Speed Field","Heaven's Knuckle":"Heaven's Knuckle","神聖鉤爪Ⅱ":"Saint Knuckle II","百萬爆焰":"Electro Shocker","新月之葉Ⅱ":"Crescent Leaf II","角色倒置":"Character Reversal","達達勾拳":"Dumdum Uppercut","破壞之劍Ⅱ":"Crush Blade II","妖狐火焰":"Fox Fire","爆擊力場":"Critical Field","徹甲刃":"Metal Armor Blade","重度強襲Ⅱ":"Heavy Strike II","仇恨值填充":"Hate Charge","當身返":"Maul Attack","彗星重鎚Ⅱ":"Comet Hammer II","蓋亞爆破Ⅱ":"Gaia Blaster II","蒼炎吐息":"Blue Flare Breath","守備破壞":"Guard Break","百萬爆破":"Mega Burst","雲霧汽油彈Ⅱ":"Wolkenapalm II","強襲獠牙":"Fang Strike","純金屬樁Ⅱ":"Full Metal Pile II","針狀植物Ⅰ":"Crescent Leaf II","萬神斬":"Vantheon","冰晶雲":"Crystal Cloud","神聖之光Ⅱ":"Holy Light II","閃耀爆裂Ⅱ":"Shine Burst II","貓貓拳":"Lightning Paw","驅散":"Dispel","地獄嚎叫":"Grau Lärm","暗影之牙Ⅱ":"Shadow Fang II","夢魘Ⅱ":"Nightmare II","隕石巨翼":"Meteor Wing","爆裂火焰Ⅱ":"Burst Flame II","翔焰俯衝":"Flame Dive","攻擊力場":"Attack Field","V疾風矢":"V-Nova Blast","烈風利爪Ⅱ":"Wind Claw II","燕返十字斬":"Dual Swallow Reversal","苦無羽":"Kunai Wing","冰柱棒":"Icicle Rod","速度破壞":"Speed Break","凍結子彈Ⅱ":"Frozen Bullet II","爆擊破壞":"Critical Break","絕對零度拳":"Sub-Zero Ice Punch","咒語增幅器":"Spell Boost","神聖射擊":"Holy Shot","啃噬伏擊":"Ambush Crunch","奈米機械破壞Ⅱ":"Nanomachine Break II","審判子彈":"Justice Bullet","純金屬樁Ⅰ":"Full Metal Pile I","音速射擊Ⅱ":"Sonic Shot II","獸王拳":"Fist of the Beast King","驅驅裂空斬":"Rolling Tackle","詛咒屏障":"Curse Barrier","冰球炸彈":"Iceball Bomb","雷雲閃光":"Thunder Cloud","魔法力場":"Magic Field","盧娜烈風":"Baluluna Gale","狂風暴雨Ⅱ":"Gale Storm II","螺旋吹襲":"Spiral Blow","DJ飛盤擊":"DJ Shooter","小鳥啄擊":"Pummel Peck","鬼火玉":"Fox Tail Inferno","智能破壞":"Mental Break","重置軀體":"Reset Body","超時空破碎":"Chrono Breaker","獵殺加農炮":"Hunting Cannon","陽光射線":"Sunshine Beam","荊棘強襲Ⅱ":"Thorn Strike II","寒冰箭":"Ice Blast","多變奪命鏢":"Fossil Bite","超水壓炮":"Hydro Blaster","大海波浪Ⅱ":"Ocean Wave II","流星風暴":"Meteor Shower","巨重拳":"Great Weight","蜥蜴之舞":"Lizard Dance","火焰吐息":"Fire Breath","巖兔烈鬥":"Gauntlet Claw","尖尖碰碰拳":"Needle Spray","鑽頭螺旋":"Drill Spin","智能填充":"Mental Charge","地牛翻身Ⅱ":"Awesome Quake II","強力金屬彈":"Power Metal","五連爪":"Fif Cross","齊柏林爆炸":"Zeppelin Explosion","火焰重拳":"Burning Fist","火山強襲":"Volcanic Strike","月光彈":"Moon Night Bomb","冰霜之爪":"Frost Claw","毀滅聲波":"Howling Destroyer","吸命樹枝":"Branch Drain","海鳴墨槍":"Spurting Ink","虛空光線Ⅱ":"Void Ray II","熟成大便":"Mature Poop","水之重壓Ⅱ":"Aqua Pressure II","魔法反射":"Magic Reflect","排射火炎":"Exhaust Flame","智能束縛":"Spirit Bind","碰撞交響樂":"Symphony Crusher","超惡臭":"Hyper Smell","黃金榴槤衝刺":"Goldurian Rush","虛空光線Ⅰ":"Void Ray I","緋紅詛咒":"Crimson Curse","巨石劈擊Ⅰ":"Stone Cleave I","貫穿刀刃":"Sticker Blade","大便":"Poop","裝甲車拳":"Slamming Tusk","死亡之爪":"Death Claw","三重能量砲":"Triple Forces","爆擊束縛":"Critical Bind","糞便灌籃":"Poop Dunk","力量能源Ⅱ":"Power Energy II","混亂鬼火":"Panic Wisp","大便投擲":"Poop Toss","死亡魅惑":"Death Charm","致命毒針":"Brown Stingers","稀有金屬大便":"Rare Metal Poop","超惡臭噴射":"Super Stinky Jet","百物斬":"Kirisute Gomen","閃電之爪Ⅰ":"Nanomachine Break II","爛泥攻擊":"Sludge","渦輪螫針":"Turbo Stinger","碎裂角":"Glide Horn","狂風暴雨Ⅰ":"Gale Storm I","尾巴錘擊":"Tail Hammer","X光線":"Vee Laser","毀滅榴彈":"Destruction Grenade","終結刺釘":"Spiking Strike","資料粉碎者":"Data Crusher","高壓氧氣":"Oxygen Homing","草薙":"Double Stars","黃金衝擊":"Gold Rush","智能力場":"Mental Field","安全守護":"Safety Guard","烈焰拳":"Flaming Fist","正規化":"Normalize","銀色光芒":"Rain Stream","暴風之翼":"Tempest Wing","閃電角閃":"Lightning Blade","攻擊反射":"Attack Reflect","火龍烈焰拳":"Pyro Punch","日冕衝擊波":"Corona Blaster","雙重勝利斬擊":"Zwei Sieger","流星快刀斬":"Speed Star","豪雨流柱":"Rain Stream","泰坦衝擊":"Titanic Charge","重度強襲Ⅲ":"Heavy Strike III","電擊碎裂擊倒":"Bolt Break Knockdown","閃電樁":"Lightning Pile","荊棘噬咬":"Bramble Bite","植物廣域刈割":"Plant Zone Cradle","三角鐮":"Triangler","等離子狂怒":"Plasmadness","動力引燃":"Powered Ignition","貫穿雷射":"Penetra-Laser","閃電傾瀉":"Lightning Shower","環形防禦":"Circlet Defense","超大角炮":"Horn Buster","旋轉能量劍":"Spiral Sword","推進金屬Ⅱ":"Thruster Metal II","爆炎音速吐息":"Blaze Sonic Breath","岩漿墜擊Ⅱ":"Magma Fall II","神龍衝擊":"Dragon Impulse","漂亮攻擊":"Pretty Attack","神聖弓箭":"Celestial Arrow","靈氣":"Aura","影翼斬":"Shadow Wing","雲霧汽油彈Ⅲ":"Wolkenapalm III","獅子獸波斬":"The King of Fists","虛空光線Ⅲ":"Void Ray III","神速十字劍":"Cross Blade","鬥魂爪":"Spirited Claws","地獄火焰":"Mad Dog Fire","地獄分裂":"Inferno Divide","夢魘Ⅰ":"Nightmare I","絕滅爪":"Desolation Claw","狀態屏障":"Status Barrier","尖刺衝擊波":"Spike Buster","Vulcan's Hammer":"Vulcan's Hammer","疾風天翔劍":"Wind Cutter Sword","X治癒":"X-Heal","調和":"Blinded","冰獸拳":"Fist of Ice","致命暴風雪Ⅱ":"Lethal Blizzard II","成龍刃":"Legendary Dragon Blade","日輪之舞":"Sunburst Dance","紅蓮獅王波":"Crimson Wave of the Beast King","大海嘯":"Tidal Wave","Heaven's Gate":"Heaven's Gate","長牙突襲":"Tusk Strikes","究極破壞炮":"Giga Destroyer","愛心一擊":"Hearts Attack","X復活":"X-Revive","甕布都神":"Savage Emperor","三叉戟左輪":"Trident Revolver","爆裂火焰Ⅲ":"Burst Flame III","黃金三角":"Golden Triangle","力量能源Ⅲ":"Power Energy III","鑽孔暴風":"Bowling Storm","凱撒銳爪":"Wolf Claw","死角衝鋒":"Dead Angle Horn","地獄粉碎Ⅱ":"Hell Crusher II","萬斧斬":"Bunny Blades","宇宙閃光":"Galactic Flare","勁爆搖滾之魂":"Hard Rock Soul","重金屬火神炮":"Flame Cannon","奇蹟炸彈":"Miracle Bomb","瘋狂之舞":"Lunatic Dance","哈雷風暴":"Haley Storm","魔法破壞":"Magic Break","墳墓之骨":"Grave Bone","三叉戟劍":"Trident Saber","第一曲《復調》":"Symphony No. 1","第二曲《詠唱調》":"Symphony No. 2","第三曲《卡農》":"Gale Storm II","梵筆閃":"Talisman of Light","重金屬火焰":"Heavy Metal Fire","皇家堅果":"Royal Nuts","三角突擊":"Tri-Horn Attack","金屬流星":"Metal Meteor","狂暴大劍":"Berserk Sword","動物爪子":"Animal Nail","不給糖就搗蛋":"Trick or Treat","大笑炸彈":"Big Smiley Bomber","位元炸彈":"Pit Bomb","高熱波":"Heat Wave","腕龍泡泡":"Brachio Bubble","大霹靂之音":"Big Bang Voice","莽撞突擊":"Daredevil Break","勝利拳擊":"Winning Knuckle","微笑炸彈":"Smiley Bomb","轟雷槍":"Lightning Javelin","能量炸彈":"Energy Bomb","丁香驟雨":"Lila Shower","花仙炮":"Flower Cannon","車輪磨床":"Wheel Grinder","蜘蛛吐絲":"Spider Thread","夜魔飛襲":"Night Raid","愛心光線":"Love Serenade","天叢雲":"Ame no Murakumo","大便火箭炮":"Poop Bazooka","種族滅絕飛彈":"Eradication Gears","純金屬樁Ⅲ":"Full Metal Pile III","硝基毒針":"Nitro Stinger","全力砲擊":"All-Out Bombardment","瘋狂之門Ⅱ":"Lunatic Gate II","海嘯暴風Ⅱ":"Tidal Stream II","降妖杖·瀑布之陣":"Kouyoujou: Hydro Descent","湮沒獵鳥":"Oblivion Bird","墮落骨爪":"Nail Bone","靈魂恐懼Ⅱ":"Soul Fear II","黑暗爆炸":"Dark Explosion","禁忌三叉戟":"Forbidden Trident","奮發加農炮":"Striver Cannon","閃電墜擊Ⅲ":"Thunder Fall III","破壞音波":"Musical Fist","插入式炸彈":"Digital Bomb","靈魂收割":"Soul Chopper","黑暗瞳孔":"Dark Pupil","寒冷火花":"Cold Flame","惡魔飛吻":"Unidentified Flying Kiss","蝶絕喇叭蹴":"Earth-Shattering Stomp","蛇型繃帶":"Snake Bandage","爆風火焰":"Blast Fire","種族毀滅攻擊":"Eradication Attack","原子爆焰":"Atomic Blaster","核子雷射光":"Nuclear Laser","生死交錯":"Dead or Alive","迷失樂園":"Paradise Lost","夢魘Ⅲ":"Nightmare III","回復":"Restore","黑暗波":"Darkness Wave","潘朵拉對話":"Pandora Dialogue","黑暗漩渦":"Darkstrom","荒御魂":"Disaster Blaster","衝上雲霄":"Dead Angle Horn","狂風暴雨Ⅲ":"Gale Storm III","地獄舞踏":"Hell Masquerade","死亡火箭炮":"Death Parade Blaster","地獄榴彈":"Spider Shooter","梵天聖彈":"Atomic Inferno","神聖鉤爪Ⅲ":"Saint Knuckle III","雙劍斬":"Zweihänder","破壞之劍Ⅲ":"Crush Blade III","閃耀爆裂Ⅲ":"Shine Burst III","聖劍初始階段":"Blade of the Dragon King","靈魂數據化":"Soul Digitalization","閃光V字斬":"The Ray of Victory","究極聖劍":"Victory Sword","淨化之光":"Aurora Undulation","極光波動":"Purge Shine","和平幻想曲":"Peace Fantasia","LOVE YOU":"LOVE YOU","蓋亞能量炮":"Terra Force","神聖龍捲風":"Great Tornado","永世龍王刃":"Eiseiryuojin","黃鎧":"Golden Armor","EDEN's Javelin":"EDEN's Javelin","生命之樹水晶":"Sefirot Crystal","鑰匙":"The Key","衝擊等離子Ⅲ":"Shock Plasma III","Waltz's End":"Waltz's End","神之庇佑":"Breath of the Gods","凱薩不死鳥":"Kaiser Phoenix","神祕破壞光":"Mystic Break","神聖閃耀":"Holy Flare","柯羅諾切割":"Chronos Crop","閃電之矛":"Lightning Spear","Heaven's Judgment":"Heaven's Judgment","地獄粉碎Ⅲ":"Hell Crusher III","神之烈焰":"God Flame","烈風利爪Ⅲ":"Wind Claw III","大地暴龍劍":"GeoGrey Sword","輝煌爆破":"Glorious Burst","彗星重鎚Ⅲ":"Comet Hammer III","審判飛腳":"Justice Kick","三位一體臂":"Trinity Arm","螺旋之骨":"Spiral Bone","暗影之牙Ⅲ":"Shadow Fang III","地牛翻身Ⅲ":"Awesome Quake III","天堂斬裂刃":"Golden Ripper","神聖之劍":"Blade of the True","虹橋":"Bifrost","Odin's Breath":"Odin's Breath","凍結子彈Ⅲ":"Frozen Bullet III","致命暴風雪Ⅲ":"Lethal Blizzard III","天龍斬破":"Tenryu Slash","昇龍斬波":"Shoryu Slash","咬龍斬刃":"Speed Field","七重天堂":"Strike of the Seven Stars","聖約":"Testament","爆裂轟擊":"Burst Shot","巨人飛彈":"Giant Missile","奈米機械破壞Ⅲ":"Nanomachine Break III","雙重境界":"Zwei Glänze","王座之刃":"Thron Messer","發電水流Ⅲ":"Hydro Water III","原子射線":"Atomic Ray","閃光番長拳":"Flashy Boss Punch","獅子羅王漸":"Lion Slash","千兆爆破":"Giga Blaster","星光爆破":"Starlight Explosion","神聖火焰":"Fire Tornado","混沌降階":"Chaos Degradation","神聖希望":"Holy Desire","黑暗絕望":"Nightmare III","海洋之愛":"Ocean Love","大海波浪Ⅲ":"Ocean Wave III","日冕制裁":"Corona Sanctions","無限波動":"Endless Surge","天之尾羽張":"Ame no Ohabari","螺旋渡鴉爪":"Spiral Raven Claw","地神！神鳴！神馳！親父！":"Quake! Blast! Fire! Father!","掀飯桌":"Table Flip","岩漿墜擊Ⅲ":"Magma Fall III","胎藏界曼荼羅":"Taizoukai Mandala","裏飯綱":"Illuminator","破壞崩潰":"Destruction Crush","推進金屬Ⅲ":"Thruster Metal III","超音波之聲":"Supersonic Voice","音速射擊Ⅲ":"Sonic Shot III","巨島殞落":"Island Freefall","岩漿砲擊":"Thorn Strike III","粉碎之爪":"Howling Crusher","無限飛箭":"Infinity Arrow","金剛界曼荼羅":"Amethyst Mandala","飯綱":"Izuna","轍劍制裁":"Judgment of the Blade","劍靈":"Weltgeist","百萬噸水炮":"Megaton Hydro Laser","巨型隕石坑":"Jumbo Crater","冰柱之刃Ⅲ":"Icicle Edge III","晚安之月":"Good Night Moon","月神之箭":"Arrow of Artemis","Wyvern's Breath":"Wyvern's Breath","龍's Roar":"Dragon's Roar","熾烈回馬槍":"Black Aura Blast","征服":"Eroberung","勇者金屬彈":"Brave Metal","多路審判":"DORU-Din","火山打樁擊":"Volcanic Driver","鑽石之拳":"Diamond Fist","微笑彈頭":"Smile Warhead","悲痛之藍":"Sorrow Blue","戰斧斯坦納":"Tomahawk Stinger","滿月衝擊波":"Full Moon Blaster","雙影新月":"Double Crescent Mirage","優雅十字凍結者":"Ice Wolf Claw","絕對冷凍氣":"Freezing Breath","究極波浪炮":"River of Power","飛龍之怒":"Rage of Wyvern","最終巔峰":"Final Crest","荊棘之鞭":"Thorn Whip","禁斷誘惑":"Forbidden Temptation","巨蛇治癒":"Thorn Strike III","毀滅扳機":"Destruction Trigger","苦難彈雨":"Misery Bullet Rain","腦部破裂":"Brain Rupture","星球毀滅者":"Planet Destroyer","劇毒流注":"Venom Infusion","Laplace's Demon":"Laplace's Demon","古神之印":"Elder Sign","Will-O'-Wisp Slash":"Will-O'-Wisp Slash","燐火擊":"Phosphorus Fire Attack","惡魔災難":"Demonic Disaster","猶大環監獄":"Judecca Prison","超無限大炮":"Hyper Infinity Cannon","牛仔競技子彈":"Rodeo Bullet","暴力狂熱者":"Gewalt Schwärmer","閃電戰":"Der Blitz","耍猴戲":"Monkey Wrench","冰晶革命":"Crystal Revolution","戈爾貢之眼":"Eye of the Gorgon","柯羅諾消逝":"Chrono Devolution","靈魂恐懼Ⅲ":"Soul Fear III","打首獄門":"Vorpal Blade","十文字斬":"Mystic Flame","黑暗咆嘯":"Dark Roar","千兆刺殺槍":"Gigastick Lance","馬赫刺針V":"Mach Stinger V","蜂之光":"Shine of Bee","蜂之颶風":"Bee Cyclone","新月之葉Ⅲ":"Crescent Leaf III","符文之森Ⅲ":"Rune Forest III","火焰地獄":"Flame Inferno","皇家槍擊":"Lightning Joust","地獄烹調":"Cook of the Abyss","天堂派對":"Party of the Heavens","水之重壓Ⅲ":"Aqua Pressure III","死亡逆轉":"Reversal of the Dead","海嘯暴風Ⅲ":"Tidal Stream III","群魔殿迷失":"Pandemonium Lost","死亡誘餌":"Death Lure","王牌飛劍":"Trump Sword","爆炸鐵鎚":"Puppet Pummel","死靈魔霧":"Necromist","蓋亞爆破Ⅲ":"Gaia Blaster III","刺針暴風":"Needle Squall","白金糞便":"Platinum Excrement","白金飽嗝":"Platinum Burp","毀滅突進":"Destroyed Rush","無限掘鑽":"Infinity Bowling","群魔殿火焰":"Pandemonium Flame","融化血液":"Crimson Mist","蒼蠅彈丸":"Fly Bullet","颶風亂射":"Hurricane Screw Shot","雙重衝擊":"Double Impact","暗黑利爪":"Darkness Claw","永恆惡夢":"Eternal Nightmare","日中花":"Lampranthus","幸福彈丸噴灑":"Happy Bullet Showering","約束紅扳機":"Bind Red Trigger","強襲旋斬":"Strike Roll","瘋狂旋轉木馬":"Madness Merry-Go-Round","時空無盡":"Time Unlimited","無限大炮":"Infinity Cannon","滅世烈焰":"Megiddo Flame","地獄咆哮":"Hell Howling","蕉皮滑行":"Banana Slip","蜂巢刺針":"Needle Hive","恩惠之槍":"Graceful Lance","迎接末路":"Welcome Demise","懺悔環鏈":"Chain Lash","驚駭電磁炮":"Terrors Cluster","紅鏽吐息":"Rust Breath","魔顎":"Biting Crush","巨尾":"Tail Strike","幻影苦痛":"Phantom Pain","螺旋假面舞蹈會":"Spiral Masquerade","銀色恐懼":"Fist of Athena","百萬屠殺":"Mega Death","千兆屠殺":"Giga Death","北極暴風雪":"Arctic Blizzard","維京斧擊":"Viking Axe","芬里厄劍":"Fenrir Sword","Aurvandil's Arrow":"Aurvandil's Arrow","大災難":"Catastrophe Cannon","閃金太陽風暴":"Shining Gold Solar Storm","等離子射擊":"Plasma Shot","炎龍擊":"Firedrake Strike","九頭龍陣":"Pyro Dragons","機槍毀滅":"Machinegun Destroyer","星光閃速":"Starlight Velocity","究極戰刃王龍劍":"Ultimate Ouryuken","奧米加之劍":"Omni Blade","暴龍颶風劍":"Transcendent Sword","加魯魯加農炮":"Supreme Cannon","霸王兩斷劍":"Bancho Blade","黑暗陽焰":"Dark Prominence","極光衝擊波":"Aurora Blaster","蝕星之指":"Eclipse Finger","卡呂冬之弓":"Calydon Arcus","終極閃光爆破":"Final Shining Burst","日冕烈焰劍":"Corona Blaze Sword","天羽羽斬":"Ama no Habakiri","八雷神":"Yakusa no Ikazuchi","怒濤闇供喪之舞":"Mourning Dance","雷光一閃之突":"Lightning Thrust","Pendragon's Glory":"Pendragon's Glory","龍魂衝擊":"Dragonic Impact","滿月流星衝擊波":"Full Moon Meteor Impact","終極幻象攻擊":"Final Mirage Burst","誘惑之唇":"Aguichant Lèvres","慈愛":"Charité","何去何從":"Quo Vadis","無敵劍":"Invincible Sword","混沌爆炎":"Chaos Flare","死亡槍擊":"Death Slinger","暗黑天賦":"Gift of Darkness","愛之毒霧":"Love Poison","瘋狂旋轉木馬DX":"Madness Merry-Go-Round DX","神之贖罪":"Divine Atonement","滌罪之炎":"Purgatorial Flame","究極爆炎炮":"Ultimate Flare","黑雨":"Black Rain","紅色鉸刀":"Red Reamer","蓋亞勇氣彈":"Gaia Brave","黑暗死域":"Darkness-Zone","赭石之星":"Raddle Star","冷酷之刃":"Cool Edge","獸狼大迴旋":"Ice Wolf Claw","激·冰月牙":"Freezing Breath","鋼鐵斬擊Ⅲ":"Crush Blade III","巨石劈擊Ⅲ":"Awesome Quake III","血色終結":"Spike Buster","劍翼":"Judgment of the Blade","究極戰刃聖霸劍":"Weltgeist","勝利槍擊":"Lightning Joust","幼角":"Whirlpool Spin","黑影鐮刀":"Shadow Sickle","高壓加農炮":"Hyper Cannon","剪刀臂":"Scissor Claw","碧炎吐息":"Green Flare Breath","最強毒針":"Venom Blast","冰雪拳":"Snow Punch","羅塞塔石碑":"Rosetta Stone","刺殺驚駭":"Stinger Surprise","灼熱·毒蛇":"Heat Viper","強襲魚叉":"Strike Fishing","亞米加剪刀臂":"Double Scissor Claw","櫻桃炸彈":"Cherry Bomb","漩渦穿刺":"Vortex Penetration","荊棘強襲Ⅲ":"Thorn Strike III","廣域神罰":"Wide Plasment","究極爆破":"Ultimate Blast","究極震盪":"Ultimate Quake","適切兵裝":"Appropriate Works","飢餓":"Famis","摩天大廈":"Vulcan Crusher","地獄斬擊":"Hell Slicer","魂魄芯擊":"Soul Core Attack","極樂淨土":"Shield of the Just","萬千拳打":"Thousand Fists","次元剪刀":"Dimension Scissor","雷霆斬擊":"Keraunos Divide","神雷審判":"Dios Thunder","點燃火焰Ⅲ":"Ignition Flare III","閃電之爪Ⅲ":"Lightning Claw III","全部刪除":"Cook of the Abyss","三叉戟腕擊":"Ame no Murakumo"};
 let LANG='zh';
 let CURDRAW=0;
 let DL=null;   /* 详情卡独立语言：null = 跟随主界面；'zh'|'en'|'ja' 表示本卡固定显示该语言 */
 const __zhText=new WeakMap(), __zhAttr=new WeakMap();
+UI_LANG.en['○ 抗性']='○ Resistant'; UI_LANG.ja['○ 抗性']='○ 耐性';
+UI_LANG.en['△ 弱点']='△ Weak'; UI_LANG.ja['△ 弱点']='△ 弱点';
+UI_LANG.en['◎ 免疫']='◎ Immune'; UI_LANG.ja['◎ 免疫']='◎ 無効';
+UI_LANG.en['✕ 无效']='✕ Null'; UI_LANG.ja['✕ 无效']='✕ 無効';
 UI_LANG.en['‹ 收起列表']='‹ Collapse list'; UI_LANG.en['› 展开列表']='› Expand list';
 UI_LANG.ja['‹ 收起列表']='‹ リストを畳む'; UI_LANG.ja['› 展开列表']='› リストを開く';
 UI_LANG.en['收起左侧列表，画布占满']='Collapse the left list so the canvas fills the width';

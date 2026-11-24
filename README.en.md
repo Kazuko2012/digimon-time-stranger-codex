@@ -332,6 +332,18 @@ No. The repository holds guide data and the viewer code only.
 
 ## Changelog
 
+### v1.11.0 — 2026-11-24 · Two-tab detail card; skill names from the in-game text tables
+
+- The detail card now has two tabs instead of four: “Overview · Evolution” and “Stats · Resist · Skills”; on wide screens the two tabs split the row evenly instead of leaving empty space on the right
+- Skill names are extracted from the game's own text tables (`skill_name`, `battle_skill_list`, `digistatus` skill slots): Digimon are matched by identical Lv.1 stat tuples, then skills are paired by slot order and cross-checked. 2173 of 2238 skill entries (97.1%) show their official English names; the rest are mostly signature moves of black/blue and DLC variants and stay in Chinese for now
+- The resistance legend is generated from the data: “○ Resistant · △ Weak” by default, with “◎ Immune / ✕ Null” appended only when such values exist
+- Weak / resist values are split into “Species” and “Element” rows instead of being mixed; skill parameters are grouped into two lines and their prefixes localized (Power / Hits / Accuracy)
+- The evolution chain gets a separate “Form change (same tier)” group with a violet dashed style and a “not counted as a generation” note
+- Compact top bar on narrow screens (≤640px): tool buttons share the row with “Back”, the arrows sit closer to the counter, saving about 44px
+- Drawer resizing is now bounded: ≤900px locks to full width and disables the drag handle; on wide screens the width is clamped to 420–1200px and 30%–80% of the viewport; when the drawer is narrower than 720px the compact top bar kicks in to avoid the media-query mismatch
+- The personality card separates the personality name and its bonus into two blocks: side by side when there is room, wrapping as a whole when there isn't; tab count badges now have a light-mode palette (previously almost invisible in light mode)
+- Fixed the empty-list wording: only an empty “Pre-evolutions” list shows “None (initial form)”, while “Evolutions 0” shows “None”
+
 ### v1.10.9 — 2026-11-22 · Form changes share the same tier; expand-all hardened
 
 - "Switch form from X" no longer counts as a generation: the alternate form is drawn in the same column just below the node, linked by a dashed vertical line labelled 形态, instead of taking a new column on the right
