@@ -435,9 +435,9 @@ body.lvonly .gwrap{position:fixed;left:12px;right:12px;top:calc(var(--tbh,120px)
   background:rgba(8,14,28,.95);border:1px solid rgba(79,216,255,.45);color:#fff;white-space:nowrap}
 
 /* ---------- 谱系图 ---------- */
-.lbar{position:absolute;left:0;right:0;top:0;height:52px;display:flex;align-items:center;gap:12px;padding:0 14px;
-  border-bottom:1px solid var(--line);background:rgba(10,16,32,.82);backdrop-filter:blur(8px);z-index:26;flex-wrap:nowrap;overflow:visible}
-.lsearchwrap{position:relative;flex:0 0 300px;min-width:200px}
+.lbar{position:absolute;left:0;right:0;top:0;min-height:52px;display:flex;align-items:center;gap:8px 10px;padding:6px 14px;
+  border-bottom:1px solid var(--line);background:rgba(10,16,32,.82);backdrop-filter:blur(8px);z-index:26;flex-wrap:wrap;overflow:visible}
+.lsearchwrap{position:relative;flex:1 1 240px;max-width:320px;min-width:180px}
 .lsearchwrap input{width:100%;padding:8px 12px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.06);
   color:#fff;font-size:12.5px;font-family:inherit;outline:none}
 .lsearchwrap input:focus{border-color:var(--cyan)}
@@ -1350,10 +1350,6 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
       <div class="llegend" id="llegend"></div>
       <button class="gtool" id="lmulti">多选</button>
       <button class="gtool" id="lexpall">展开全部</button>
-      <button class="gtool" id="lhistback" title="上一个中心（Alt+←）" aria-label="上一个中心" disabled>‹</button>
-      <button class="gtool" id="lhistfwd" title="下一个中心（Alt+→）" aria-label="下一个中心" disabled>›</button>
-      <button class="gtool" id="lzoomout" title="缩小（-）" aria-label="缩小">－</button>
-      <button class="gtool" id="lzoomin" title="放大（+）" aria-label="放大">＋</button>
       <button class="gtool" id="lfit" title="适应窗口（双击空白处同样生效）">适应窗口</button>
     </div>
     <div class="lside" id="lside">
@@ -1431,7 +1427,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.11.0 · 构建 2026-11-24 · 含双页签详情卡 / 技能名多语言 / 图例动态化 / 形态切换分组 / 窄屏紧凑顶栏 / 拖拽限宽</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.11.1 · 构建 2026-11-24 · 鹰眼真实缩略图 / 谱系栏精简四按钮 / 谱系栏自动换行防截断</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -3523,10 +3519,11 @@ function zoomStep(k){
   LV.ty=py-(py-LV.ty)*ns/LV.scale;
   LV.scale=ns; applyTransform();
 }
-$('#lzoomin').onclick=()=>zoomStep(1.2);
-$('#lhistback').onclick=()=>goHist(-1);
-$('#lhistfwd').onclick=()=>goHist(1);
-$('#lzoomout').onclick=()=>zoomStep(1/1.2);
+{ const zi=$('#lzoomin'), zo=$('#lzoomout'), hb=$('#lhistback'), hf=$('#lhistfwd');
+  if(zi) zi.onclick=()=>zoomStep(1.2);
+  if(zo) zo.onclick=()=>zoomStep(1/1.2);
+  if(hb) hb.onclick=()=>goHist(-1);
+  if(hf) hf.onclick=()=>goHist(1); }
 lvp.addEventListener('dblclick',e=>{ if(e.target.closest('.lnode')) return; fitLineage('fit'); });
 
 lvp.addEventListener('wheel',e=>{
@@ -4153,7 +4150,7 @@ document.addEventListener('keydown',e=>{
   gw.appendChild(panel);
   /* ---- 鹰眼 ---- */
   const mini=document.createElement('div'); mini.className='lmini'; mini.id='lmini';
-  mini.innerHTML='<canvas id="lminiCv" width="220" height="150" aria-label="谱系缩略图"></canvas>';
+  mini.innerHTML='<canvas id="lminiCv" width="440" height="300" style="width:220px;height:150px" aria-label="谱系缩略图"></canvas>';
   gw.appendChild(mini);
   const cv=mini.querySelector('canvas'); const ctx=cv.getContext('2d');
   let miniMap=null, outlineOn=false, miniOn=false;
@@ -4196,32 +4193,82 @@ document.addEventListener('keydown',e=>{
     body.querySelectorAll('.lo-item').forEach(el=>el.onclick=()=>{ locate(+el.dataset.n); refreshOutline(); });
   }
   window.__refreshOutline=refreshOutline;
-  /* ---- 鹰眼绘制 ---- */
+  /* ---- 鹰眼绘制：真实卡片缩略图 ---- */
+  const mIm={}, mPend={};
+  let mRaf=0;
+  function scheduleMini(){ if(mRaf||!miniOn) return; mRaf=requestAnimationFrame(()=>{ mRaf=0; miniDraw(); }); }
+  function miniIcon(id){
+    if(mIm[id]!==undefined) return mIm[id];
+    if(mPend[id]) return null;
+    mPend[id]=1;
+    const im=new Image(); im.decoding='async';
+    im.onload=()=>{ mIm[id]=im; scheduleMini(); };
+    im.onerror=()=>{ mIm[id]=false; };
+    im.src=iconPath(id);
+    return null;
+  }
   function miniDraw(){
     if(!miniOn||!LV.pos) return;
     const ids=Object.keys(LV.pos).map(Number); if(!ids.length) return;
+    const S=cv.width/220;                 /* 画布 2 倍分辨率：几何值按 220×150 逻辑尺寸定义 */
     let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
     ids.forEach(i=>{const p=LV.pos[i]; x0=Math.min(x0,p.x); y0=Math.min(y0,p.y); x1=Math.max(x1,p.x+CW); y1=Math.max(y1,p.y+CH);});
-    const pad=8, sw=cv.width-pad*2, sh=cv.height-pad*2;
-    const k=Math.min(sw/Math.max(1,x1-x0), sh/Math.max(1,y1-y0));
-    miniMap={x0,y0,k,pad};
+    const spanX=Math.max(1,x1-x0), spanY=Math.max(1,y1-y0);
+    const pad=9*S, sw=cv.width-pad*2, sh=cv.height-pad*2;
+    const k=Math.min(sw/spanX, sh/spanY);
+    /* 内容居中：bbox 按比例缩放后剩余空间平均分配到两侧 */
+    const ox=(cv.width-spanX*k)/2, oy=(cv.height-spanY*k)/2;
+    miniMap={x0,y0,k,ox,oy};
+    const light=document.body.classList.contains('light');
     ctx.clearRect(0,0,cv.width,cv.height);
-    ids.forEach(i=>{ const p=LV.pos[i]; ctx.fillStyle=stageColor[BY[i].s]||'#8fa4c9';
-      ctx.fillRect(pad+(p.x-x0)*k, pad+(p.y-y0)*k, Math.max(2,CW*k), Math.max(1.5,CH*k)); });
+    const cxOf=i=>ox+(LV.pos[i].x+CW/2-x0)*k, cyOf=i=>oy+(LV.pos[i].y+CH/2-y0)*k;
+    /* 缩略图统一为方形，跟随缩放取尺寸并限制上下限，避免卡片长宽比把画面压成条状 */
+    const nh=Math.max(10*S, Math.min(28*S, CH*k));
+    const nw=nh;
+    /* 连线：先画边，让缩略图看得出进化走向 */
+    ctx.strokeStyle=light?'rgba(120,150,185,.55)':'rgba(130,168,215,.45)';
+    ctx.lineWidth=1*S;
+    ids.forEach(i=>{ const nd=BY[i], p=LV.pos[i]; if(!nd||!p) return;
+      [...(nd.x||[]),...(nd.v||[])].forEach(t=>{ if(!LV.pos[t]) return;
+        ctx.beginPath(); ctx.moveTo(cxOf(i),cyOf(i)); ctx.lineTo(cxOf(t),cyOf(t)); ctx.stroke();
+      });
+    });
+    ids.forEach(i=>{ if(!LV.pos[i]) return;
+      const X=cxOf(i)-nw/2, Y=cyOf(i)-nh/2;
+      const im=miniIcon(i);
+      if(im && im!==false && im.width){
+        /* 图标取中心正方形裁切后铺满方框，保持画面真实比例，不拉伸 */
+        const iw=im.width, ih=im.height, side=Math.min(iw,ih);
+        ctx.drawImage(im,(iw-side)/2,(ih-side)/2,side,side, X,Y,nw,nh);
+        ctx.strokeStyle=light?'rgba(20,45,90,.28)':'rgba(10,16,28,.55)';
+        ctx.lineWidth=1*S; ctx.strokeRect(X,Y,nw,nh);
+      } else {
+        ctx.fillStyle=stageColor[BY[i]&&BY[i].s]||'#8fa4c9';
+        ctx.fillRect(X,Y,nw,nh);
+      }
+    });
     const cp=LV.pos[LV.center];
-    if(cp){ ctx.strokeStyle='rgba(255,255,255,.9)'; ctx.lineWidth=1;
-      ctx.strokeRect(pad+(cp.x-x0)*k-.5, pad+(cp.y-y0)*k-.5, Math.max(2,CW*k)+1, Math.max(1.5,CH*k)+1); }
+    if(cp){ ctx.strokeStyle='rgba(79,216,255,.95)'; ctx.lineWidth=2*S;
+      ctx.strokeRect(cxOf(LV.center)-nw/2-1.5*S, cyOf(LV.center)-nh/2-1.5*S, nw+3*S, nh+3*S); }
     const w=lvp.clientWidth||1,h=lvp.clientHeight||1;
     const wx0=(0-LV.tx)/LV.scale, wy0=(0-LV.ty)/LV.scale, wx1=(w-LV.tx)/LV.scale, wy1=(h-LV.ty)/LV.scale;
-    ctx.strokeStyle='rgba(79,216,255,.95)'; ctx.lineWidth=1.2;
-    ctx.strokeRect(pad+(wx0-x0)*k, pad+(wy0-y0)*k, (wx1-wx0)*k, (wy1-wy0)*k);
+    /* 视口框：与画布求交后再画，避免整框超出画布时完全看不见 */
+    {
+      const rx=ox+(wx0-x0)*k, ry=oy+(wy0-y0)*k, rw=(wx1-wx0)*k, rh=(wy1-wy0)*k;
+      const ix0=Math.max(1.5*S, rx), iy0=Math.max(1.5*S, ry);
+      const ix1=Math.min(cv.width-1.5*S, rx+rw), iy1=Math.min(cv.height-1.5*S, ry+rh);
+      if(ix1-ix0>2 && iy1-iy0>2){
+        ctx.strokeStyle='rgba(79,216,255,.95)'; ctx.lineWidth=1.5*S;
+        ctx.strokeRect(ix0, iy0, ix1-ix0, iy1-iy0);
+      }
+    }
   }
   window.__miniDraw=miniDraw;
   function miniJump(e){
     if(!miniMap) return;
     const r=cv.getBoundingClientRect();
     const cx=(e.clientX-r.left)*(cv.width/r.width), cy=(e.clientY-r.top)*(cv.height/r.height);
-    const wx=miniMap.x0+(cx-miniMap.pad)/miniMap.k, wy=miniMap.y0+(cy-miniMap.pad)/miniMap.k;
+    const wx=miniMap.x0+(cx-miniMap.ox)/miniMap.k, wy=miniMap.y0+(cy-miniMap.oy)/miniMap.k;
     const w=lvp.clientWidth||1,h=lvp.clientHeight||1;
     LV.tx=w/2-wx*LV.scale; LV.ty=h/2-wy*LV.scale; applyTransform();
   }

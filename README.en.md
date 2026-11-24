@@ -332,6 +332,14 @@ No. The repository holds guide data and the viewer code only.
 
 ## Changelog
 
+### v1.11.1 — 2026-11-24 · Real thumbnails in the minimap; leaner, no-clip lineage bar
+
+- The minimap (whole-tree overview) no longer paints flat colour blocks: each node shows that Digimon's real portrait thumbnail, evolution links are drawn, and the centre Digimon is marked with a cyan outline
+- Nodes are square (the icon is centre-cropped to fill, so nothing is stretched), sized between 10 and 28 px depending on zoom, and the whole tree is centred both horizontally and vertically
+- The viewport rectangle is intersected with the canvas before drawing, so its edges stay visible when zoomed in and never collapse into a stray line when fully zoomed out
+- The lineage toolbar drops the “previous centre / next centre / zoom out / zoom in” buttons and keeps only Multi-select · Expand all · Outline · Minimap · Fit; Alt+← / → and wheel zoom still work
+- The toolbar now wraps onto a second line instead of being clipped at the right edge, and the search box shrinks elastically to make room
+
 ### v1.11.0 — 2026-11-24 · Two-tab detail card; skill names from the in-game text tables
 
 - The detail card now has two tabs instead of four: “Overview · Evolution” and “Stats · Resist · Skills”; on wide screens the two tabs split the row evenly instead of leaving empty space on the right
