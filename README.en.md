@@ -332,6 +332,12 @@ No. The repository holds guide data and the viewer code only.
 
 ## Changelog
 
+### v1.11.2 — 2026-11-28 · Fix mobile detail drawer that could not scroll to the bottom
+
+- The drawer is now a fixed `100dvh` flex column with `#dbody` as its only inner scroll area, fixing the mobile drawer being stretched by content and unable to reach the bottom
+- A safe-area inset (`env(safe-area-inset-bottom)`) is added below the narrow-screen drawer for mobile gesture bars
+- Scroll resets when switching tabs or opening another card now target the inner scroll container; a CSS syntax issue that invalidated the drawer rule was fixed
+
 ### v1.11.1 — 2026-11-24 · Real thumbnails in the minimap; leaner, no-clip lineage bar
 
 - The minimap (whole-tree overview) no longer paints flat colour blocks: each node shows that Digimon's real portrait thumbnail, evolution links are drawn, and the centre Digimon is marked with a cyan outline

@@ -142,9 +142,10 @@ body.light .ghbtn:hover{border-color:var(--cyan);color:#0d2a44}
 /* ---------- DRAWER ---------- */
 .mask{position:fixed;inset:0;background:rgba(3,6,14,.72);backdrop-filter:blur(3px);z-index:60;opacity:0;pointer-events:none;transition:.25s}
 .mask.on{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;height:100vh;width:var(--dw,50vw);min-width:340px;max-width:100vw;z-index:70;overflow-y:auto;overscroll-behavior-y:contain;
+.drawer{position:fixed;top:0;right:0;bottom:0;height:100vh;height:100dvh;width:var(--dw,50vw);min-width:340px;max-width:100vw;z-index:70;overflow:hidden;display:flex;flex-direction:column;
   background:linear-gradient(180deg,#0d1428,#080d1c 60%);border-left:1px solid rgba(79,216,255,.25);
-  box-shadow:-24px 0 60px rgba(0,0,0,.55);transform:translateX(102%);transition:transform .28s cubic-bezier(.22,.9,.3,1);padding:0 22px 40px}
+  box-shadow:-24px 0 60px rgba(0,0,0,.55);transform:translateX(102%);transition:transform .28s cubic-bezier(.22,.9,.3,1);padding:0}
+#dbody{flex:1;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;padding:0 22px 40px}
 .drawer.on{transform:none}
 .drawer::-webkit-scrollbar{width:8px}
 .drawer::-webkit-scrollbar-thumb{background:rgba(120,170,255,.25);border-radius:4px}
@@ -844,7 +845,8 @@ body.light .card .pic .no{color:#61718a}
 /* 窄屏：详情侧栏占满整屏 + 左上角返回 */
 @media (max-width:900px){
   html,body{overflow-x:hidden}
-  .drawer{left:0;right:0;width:auto;min-width:0;max-width:none;border-left:0;padding:56px 16px 40px;box-sizing:border-box;transform:none}
+  .drawer{left:0;right:0;width:auto;min-width:0;max-width:none;border-left:0;padding:0;box-sizing:border-box;transform:none}
+  #dbody{padding:56px 16px calc(40px + env(safe-area-inset-bottom,0px))}
   .drawer:not(.on){transform:translateX(102%)}
   .dback{display:inline-flex;position:absolute;top:12px;left:14px;height:34px;align-items:center;gap:5px;padding:0 13px;
     border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:#cfe0ff;font-size:13px;
@@ -1427,7 +1429,7 @@ body.light .recenter{background:rgba(255,255,255,.94);color:#0d5f86;box-shadow:0
 
 <footer>
   数据来源：AppMedia《数码宝贝物语 时空异客》图鉴（工具页 / 究极体 / 超究极体 / DLC）。英文 / 日文名称与简介参考 digimon.net 官方图鉴。本页为离线整理版，仅供游戏攻略参考，版权归各权利人所有。<br>
-  <span id="buildver" style="opacity:.75">v1.11.1 · 构建 2026-11-24 · 鹰眼真实缩略图 / 谱系栏精简四按钮 / 谱系栏自动换行防截断</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
+  <span id="buildver" style="opacity:.75">v1.11.2 · 构建 2026-11-28 · 修复手机端详情抽屉无法滚到底 / 抽屉内层滚动容器 / 安全区留白</span><br><a href="https://github.com/Kazuko2012/digimon-time-stranger-codex" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">GitHub 仓库（源码 / 更新日志 / 问题反馈）</a>
 </footer>
 
 <script>
@@ -2142,7 +2144,7 @@ function openDrawer(n, keepDL){
     DTAB=k;
     barEl.querySelectorAll('button').forEach(b=>{ const on=b.dataset.tab===k; b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false'); });
     dbodyEl.querySelectorAll('.dpane').forEach(p=>p.classList.toggle('on',p.dataset.pane===k));
-    const dr=$('#drawer'); if(dr) dr.scrollTop=0;
+    const db=$('#dbody'); if(db) db.scrollTop=0;
   };
   if(barEl) barEl.querySelectorAll('button').forEach(b=>b.onclick=ev=>{ ev.stopPropagation(); setDTab(b.dataset.tab); });
   const dpfbtn=document.getElementById('dpfbtn');
@@ -2161,7 +2163,7 @@ function openDrawer(n, keepDL){
   }catch(e){}
   try{
     const dr=$('#drawer'); const wasOpen=dr.classList.contains('on');
-    dr.scrollTop=0;
+    const db=$('#dbody'); if(db) db.scrollTop=0;
     const order=rankNum(sortList(N.filter(match))); const oi=order.findIndex(x=>x.n===n);
     const nav=document.createElement('div'); nav.className='dnav'; nav.setAttribute('data-ui','1');
     /* 顶栏属于界面语言：始终跟随主界面语言 DL0（=LANG 原值），不随详情卡独立语言变化 */
